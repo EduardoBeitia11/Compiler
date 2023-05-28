@@ -90,27 +90,22 @@ def t_ID(t):
     if t.value.upper() in tokens:
         tok = t.value.upper()
         if tok == 'IF':
-            pending_jumps.append(['GOTOF', '', ''])
+            createJump.append(['GOTOF', '', ''])
         elif tok == 'ELSE':
             quadrupleTable.append(['GOTO', '', ''])
-            print("ELSE aqui")
-            print(jumpStack)
-            process_jump()
+            addJumpToQuadruple()
             jumpStack.append(['GOTO', len(quadrupleTable), ''])
         elif tok == 'DO':
             gotoJumpStack.append(len(quadrupleTable) + 1)
         elif tok == 'WHILE':
-            pending_jumps.append(['GOTOT', '', ''])
+            createJump.append(['GOTOT', '', ''])
         t.type = t.value.upper()
     return t
 
 def t_OPENK(t):
     r'\{'
-    print("AQUI TENGO QUE ENTRAR")
-    print(len(pending_jumps), len(elementStack))
-    if len(pending_jumps) and len(elementStack):
-        print("SI ENTRA")
-        nextJump = pending_jumps.pop()
+    if len(createJump) and len(elementStack):
+        nextJump = createJump.pop()
         quadrupleTable.append([nextJump[0], elementStack.pop(), ''])
         nextJump[1] = len(quadrupleTable)
         jumpStack.append(nextJump)
@@ -135,29 +130,28 @@ precedence = (
 #------------------- VARIABLES -----------------------
 
 
-#To create variable table 
-idTypeValue=""
-variableTable={}
+# #To create variable table 
+# idTypeValue=""
+# variableTable={}
 
-#To create quadruple table
-elementStack=[]
-operatorStack=[]
-operationCounter=0
-gotoJumpStack=[]
-quadrupleTable=[]
-newTempVar=""
-pending_jumps=[]
-jumpStack=[]
+# #To create quadruple table
+# elementStack=[]
+# operatorStack=[]
+# operationCounter=0
+# gotoJumpStack=[]
+# quadrupleTable=[]
+# newTempVar=""
+# createJump=[]
+# jumpStack=[]
+
 
 #-------------------- quadruple table -----------------------
 def addToQuadrupleTable():
     global operationCounter, quadrupleTable, newTempVar
 
     operand = operatorStack.pop()
-
     if operand == '(':
         return
-
     operationCounter += 1 
 
     #operand = operatorStack.pop()
@@ -167,13 +161,11 @@ def addToQuadrupleTable():
 
     tempQuadruple=[operand,leftValue,rightValue,newTempVar]
 
-    print(newTempVar)
     elementStack.append(newTempVar)
     quadrupleTable.append(tempQuadruple)
 
 #------------------- PREPATRING NEXT JUMP -------------
-def process_jump():
-    print("process nextJump")
+def addJumpToQuadruple():
     nextJump = jumpStack.pop()
     if len(gotoJumpStack) and nextJump[0] == 'GOTOT':
         quadrupleTable[nextJump[1] - 1][2] = gotoJumpStack.pop()
@@ -220,7 +212,8 @@ def p_vars(p):
 def p_idPrima(p):
     '''idPrima : COMA ID idPrima
                | COLON type'''
-    addToVarTable(p[2]) #adding id to variable table is a key
+    if len(p) == 4 :
+        addToVarTable(p[2]) #adding id to variable table is a key
     
     
 def p_idPrima2(p):
@@ -241,7 +234,6 @@ def p_type(p):
     
 def p_body(p):
     '''body : OPENK bodyPrima CLOSEK'''
-    print("closeJump",p[3])
     
 
 def p_bodyPrima(p):
@@ -273,12 +265,11 @@ def p_assign(p):
     
 def p_cycle(p):
     '''cycle : DO body WHILE OPENP expresion CLOSEP ENDL'''
-    nextJump = pending_jumps.pop()
+    nextJump = createJump.pop()
     nextJump[1] = elementStack.pop()
     quadrupleTable.append(nextJump)
-    print("APPEND A jumpStack")
     jumpStack.append([nextJump[0], len(quadrupleTable), ''])
-    process_jump()
+    addJumpToQuadruple()
 
 def p_expresion(p):
     '''expresion : exp  expresionPrima2'''
@@ -288,31 +279,29 @@ def p_expresionPrima2(p):
                | GREATER exp
                | LESS exp
                | ISNOT exp'''
-    if len(p) > 1:
+    if len(p) > 2:
         operatorStack.append(p[1])
         addToQuadrupleTable() #llamar funcion quadruple
 
 def p_condition(p):
     '''condition : IF OPENP expresion CLOSEP body conditionPrima'''
     if len(jumpStack):
-        process_jump()
+        addJumpToQuadruple()
 
 def p_conditionPrima(p):             
     '''conditionPrima : ELSE body ENDL
                | ENDL '''
     
 def p_factor(p):
-    '''factor : factorPrima'''
-
-def p_factorPrima(p):
-    '''factorPrima : OPENP expresion CLOSEP
+    '''factor : OPENP expresion CLOSEP
                | factorPrima2
                | PLUS factorPrima2
                | MINUS factorPrima2'''
     if len(p)>2:
         operatorStack.append(p[1])
         addToQuadrupleTable() #llamar funcion quadruple
-        
+
+#def p_factorPrima(p):
     
 def p_factorPrima2(p):
     '''factorPrima2 : ID
@@ -356,52 +345,143 @@ print("\n--------------------------------------------------------------------\n"
 
 parser = yacc.yacc()
 
-# data1 = '''
-#     program buenCaso; var a, b: int; c, d: float; {
-#         if (a>b+c){
-#             t = a+b;
-#         };
-#         v=x;
-#     }end
-# '''
+#-------------------------------CASO 1----------------------------------
+#To create variable table 
+idTypeValue=""
+variableTable={}
 
+#To create quadruple table
+elementStack=[]
+operatorStack=[]
+operationCounter=0
+gotoJumpStack=[]
+quadrupleTable=[]
+newTempVar=""
+createJump=[]
+jumpStack=[]
 data1 = '''
     program buenCaso; var a, b: int; c, d: float; {
-        if (a>b+c){
-            t = a+b;
-        }else{
-            c = a+b;
-        };
+        a=b+c*(k+c/d);
     }end
 '''
-
-# data1 = '''
-#     program buenCaso; var a, b: int; c, d: float; {
-#         a = c*d/t;
-#     }end
-# '''
-
 lexer.input(data1)
 
 # Tokenize
-while True:
-    tok = lexer.token()
-    if not tok: 
-        break      # No more input
-    print(tok)
+# while True:
+#     tok = lexer.token()
+#     if not tok: 
+#         break      # No more input
+#     print(tok)
 
 # Build the parser
 parser.parse(data1)
 
 #print variable Table
-print("\n-----------------------VARIABLE TABLE-------------------------------\n")
-print(variableTable)
+#print("\n-----------------------VARIABLE TABLE-------------------------------\n")
+#print(variableTable)
 
 #print semantic table
-print("\n-----------------------SEMANTIC TABLE-------------------------------\n")
-getSementicTable()
+#print("\n-----------------------SEMANTIC TABLE-------------------------------\n")
+#getSementicTable()
 
 #print quadruple table
 print("\n-----------------------QUADRUPLE TABLE------------------------------\n")
-print(quadrupleTable)
+for quadruple in quadrupleTable:
+    print(quadruple, "\n")
+print("\n--------------------------------------------------------------------\n")
+
+#-------------------------------CASO 2----------------------------------
+#To create variable table 
+idTypeValue=""
+variableTable={}
+
+#To create quadruple table
+elementStack=[]
+operatorStack=[]
+operationCounter=0
+gotoJumpStack=[]
+quadrupleTable=[]
+newTempVar=""
+createJump=[]
+jumpStack=[]
+data2 = '''
+    program buenCaso; var a, b: int; c, d: float; {
+        if (a<c){
+            b = c+d;
+        }else{
+            b = a;
+        };
+    }end
+'''
+lexer.input(data2)
+
+# # Tokenize
+# # while True:
+# #     tok = lexer.token()
+# #     if not tok: 
+# #         break      # No more input
+# #     print(tok)
+
+# # Build the parser
+parser.parse(data2)
+
+# #print variable Table
+# print("\n-----------------------VARIABLE TABLE-------------------------------\n")
+# print(variableTable)
+
+# #print semantic table
+# print("\n-----------------------SEMANTIC TABLE-------------------------------\n")
+# getSementicTable()
+
+# #print quadruple table
+print("\n-----------------------QUADRUPLE TABLE------------------------------\n")
+for quadruple in quadrupleTable:
+    print(quadruple, "\n")
+print("\n--------------------------------------------------------------------\n")
+
+#-------------------------------CASO 3----------------------------------
+#To create variable table 
+idTypeValue=""
+variableTable={}
+
+#To create quadruple table
+elementStack=[]
+operatorStack=[]
+operationCounter=0
+gotoJumpStack=[]
+quadrupleTable=[]
+newTempVar=""
+createJump=[]
+jumpStack=[]
+data3 = '''
+    program buenCaso; var a, b: int; c, d: float; {
+        do{
+            a=b;
+        }while(c>k);
+    }end
+'''
+# lexer.input(data3)
+
+# # Tokenize
+# # while True:
+# #     tok = lexer.token()
+# #     if not tok: 
+# #         break      # No more input
+# #     print(tok)
+
+# # Build the parser
+parser.parse(data3)
+
+# #print variable Table
+# print("\n-----------------------VARIABLE TABLE-------------------------------\n")
+# print(variableTable)
+
+# #print semantic table
+# print("\n-----------------------SEMANTIC TABLE-------------------------------\n")
+# getSementicTable()
+
+# #print quadruple table
+print("\n-----------------------QUADRUPLE TABLE------------------------------\n")
+for quadruple in quadrupleTable:
+    print(quadruple, "\n")
 print("\n--------------------------------------------------------------------\n")
