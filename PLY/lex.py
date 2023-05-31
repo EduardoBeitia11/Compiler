@@ -220,7 +220,6 @@ def processProgram(quadTable):
             else:
                 secondValue = quadArray[2]
             
-            #print("values: ",firstValue, secondValue)
             result = int(firstValue) + int(secondValue)
 
             variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
@@ -238,7 +237,6 @@ def processProgram(quadTable):
             else:
                 secondValue = quadArray[2]
             
-            #print("values: ",firstValue, secondValue)
             result = int(firstValue) - int(secondValue)
 
             variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
@@ -256,11 +254,11 @@ def processProgram(quadTable):
             else:
                 secondValue = quadArray[2]
             
-            #print("values: ",firstValue, secondValue)
             result = int(firstValue) / int(secondValue)
 
             variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
             memory[variableDirection[quadArray[3]]] = result
+
         elif quadArray[0] == '*':
             firstValue = 0
             secondValue = 0
@@ -274,11 +272,11 @@ def processProgram(quadTable):
             else:
                 secondValue = quadArray[2]
             
-            #print("values: ",firstValue, secondValue)
             result = int(firstValue) * int(secondValue)
 
             variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
             memory[variableDirection[quadArray[3]]] = result
+
         elif quadArray[0] == '>':
             firstValue = 0
             secondValue = 0
@@ -300,6 +298,7 @@ def processProgram(quadTable):
             else:
                 variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
                 memory[variableDirection[quadArray[3]]] = 0
+
         elif quadArray[0] == '<':
             firstValue = 0
             secondValue = 0
@@ -321,6 +320,7 @@ def processProgram(quadTable):
             else:
                 variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
                 memory[variableDirection[quadArray[3]]] = 0
+
         elif quadArray[0] == '!=':
             firstValue = 0
             secondValue = 0
@@ -342,6 +342,7 @@ def processProgram(quadTable):
             else:
                 variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
                 memory[variableDirection[quadArray[3]]] = 0
+
         elif quadArray[0] == 'GOTOF':
             value = 0
             if quadArray[1] in variableDirection.keys():
@@ -350,11 +351,23 @@ def processProgram(quadTable):
                 value = quadArray[1]
 
             if int(value) == 0:
-                processProgram(quadTable[int(quadArray[2]-1):])
+                processProgram(quadrupleTable[int(quadArray[2]-1):])
                 return 
+            
         elif quadArray[0] == 'GOTO':
-            processProgram(quadTable[int(quadArray[2]-1):])
+            processProgram(quadrupleTable[int(quadArray[2]-1):])
             return
+        
+        elif quadArray[0] == 'GOTOT':
+            value = 0
+            if quadArray[1] in variableDirection.keys():
+                value = memory[variableDirection[quadArray[1]]]
+            else:
+                value = quadArray[1]
+
+            if int(value) > 0:
+                processProgram(quadrupleTable[int(quadArray[2]-1):])
+                return
         elif quadArray[0] == 'cout':
             print(memory[variableDirection[quadArray[1]]])
         steps += 1
@@ -534,17 +547,58 @@ jumpStack=[]
 memory = {}
 variableDirection = {}
 
-#---------------------------INPUT--------------------------------------
+#---------------------------Factorial--------------------------------------
+
+# #factorial
+# iterations= 0
+# factorial = 3
+# start = 1
+# while (iterations<factorial):
+#     iterations += 1
+#     start *= iterations
+
+# #print(start)
+
+# data1 = '''
+#     program buenCaso; var iterations, factorial, start: int; {
+#         iterations = 0;
+#         factorial = 3;
+#         start = 1;
+#         do{
+#             iterations = iterations + 1;
+#             start = start * iterations;
+#         }while (iterations!=factorial);
+#         cout(start);
+#     }end
+# '''
+
+#---------------------------Fibonachi---------------------------------------
+# #fibonachi
+# iterations= 0
+# times = 5
+# start = 1
+# result  = 1
+# while (iterations<times):
+#     iterations += 1
+#     aux = result
+#     print(start)
+#     result = start + result
+#     start = aux
+
+
 data1 = '''
-    program buenCaso; var a, b: int; {
-        a = 6;
-        b = 7;
-        if(a>b){
-            cout(b-a);
-        }else{
-            cout(a);
-        };
-        cout(b);
+    program buenCaso; var iterations, times, start, result, aux: int;{
+        iterations = 0;
+        times = 5;
+        start = 1;
+        result = 1;
+        do{
+            iterations = iterations + 1;
+            aux = result;
+            result = start + result;
+            start = aux;
+        }while (iterations!=times);
+        cout(result);
     }end
 '''
 
@@ -569,17 +623,17 @@ parser.parse(data1)
 #getSementicTable()
 
 #print quadruple table
-print("\n-----------------------QUADRUPLE TABLE------------------------------\n")
-for quadruple in quadrupleTable:
-    print(quadruple, "\n")
-print("\n--------------------------------------------------------------------\n")
+# print("\n-----------------------QUADRUPLE TABLE------------------------------\n")
+# for quadruple in quadrupleTable:
+#     print(quadruple, "\n")
+# print("\n--------------------------------------------------------------------\n")
 
 createMemory()
 
-print("-------------------------VM-RESULT----------------------------------")
+print("-------------------------VM-RESULT----------------------------------\n")
 processProgram(quadrupleTable)
-print(variableDirection)
-print(memory)
+# print(variableDirection)
+# print(memory)
 
 
 

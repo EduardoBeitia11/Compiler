@@ -35,17 +35,18 @@
 # #print(start)
 
 # #fibonachi
-# iterations= 0
-# times = 5
-# start = 1
-# result  = 1
-# while (iterations<times):
-#     iterations += 1
-#     aux = result
-#     print(start)
-#     result = start + result
-#     start = aux
+iterations= 0
+times = 5
+start = 1
+result  = 1
+while (iterations<times):
+    iterations += 1
+    aux = result
+    result = start + result
+    start = aux
 
-array = [1,2,3,4,5,6,7]
+print(result)
 
-print(array[3:])
+# array = [1,2,3,4,5,6,7]
+
+# print(array[3:])
