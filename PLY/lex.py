@@ -33,7 +33,8 @@ tokens = (
    'INT',
    'FLOAT',
    'COUT',
-   'DO'
+   'DO',
+   'ELIF'
    
 )
 
@@ -65,20 +66,13 @@ t_INT = r'int'
 t_FLOAT = r'float'
 t_COUT = r'cout'
 t_DO = r'do'
+t_ELIF = r'elif'
 
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
 #Definir cuando es un ID
-#def t_ID(t):
-    #r'[a-zA-Z_][a-zA-Z0-9_]*'
-    #reserved_keywords = ['program', 'if', 'else', 'then', 'cout', 'do', 'while', 'var', 'int', 
-                         #'float',',', ':', '+', '-', '*', '/', '=', '<', '>', '!=', '"', 'end']
-    #if t.value in reserved_keywords:
-        #t.type = t.value.upper()
-    #return t
-
 def t_CTESTRING( t):
     r'"[^"\n]*"'
     t.value = t.value[1:-1]  # Remove the double quotes from the value
@@ -99,6 +93,11 @@ def t_ID(t):
             createJump.append("DO")
         elif tok == 'WHILE':
             createJump.append(['GOTOT', '', ''])
+        elif tok == 'ELIF':
+            quadrupleTable.append(['GOTO','', ''])
+            createJump.append(['GOTOF', '', ''])
+            addJumpToQuadruple()
+            jumpStack.append(['GOTO', len(quadrupleTable), ''])
         t.type = t.value.upper()
     return t
 
@@ -258,7 +257,6 @@ def processProgram(quadTable):
 
             variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
             memory[variableDirection[quadArray[3]]] = result
-
         elif quadArray[0] == '*':
             firstValue = 0
             secondValue = 0
@@ -276,7 +274,6 @@ def processProgram(quadTable):
 
             variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
             memory[variableDirection[quadArray[3]]] = result
-
         elif quadArray[0] == '>':
             firstValue = 0
             secondValue = 0
@@ -298,7 +295,6 @@ def processProgram(quadTable):
             else:
                 variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
                 memory[variableDirection[quadArray[3]]] = 0
-
         elif quadArray[0] == '<':
             firstValue = 0
             secondValue = 0
@@ -320,7 +316,6 @@ def processProgram(quadTable):
             else:
                 variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
                 memory[variableDirection[quadArray[3]]] = 0
-
         elif quadArray[0] == '!=':
             firstValue = 0
             secondValue = 0
@@ -342,7 +337,6 @@ def processProgram(quadTable):
             else:
                 variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
                 memory[variableDirection[quadArray[3]]] = 0
-
         elif quadArray[0] == 'GOTOF':
             value = 0
             if quadArray[1] in variableDirection.keys():
@@ -353,11 +347,9 @@ def processProgram(quadTable):
             if int(value) == 0:
                 processProgram(quadrupleTable[int(quadArray[2]-1):])
                 return 
-            
         elif quadArray[0] == 'GOTO':
             processProgram(quadrupleTable[int(quadArray[2]-1):])
             return
-        
         elif quadArray[0] == 'GOTOT':
             value = 0
             if quadArray[1] in variableDirection.keys():
@@ -471,8 +463,11 @@ def p_condition(p):
 
 def p_conditionPrima(p):             
     '''conditionPrima : ELSE body ENDL
-               | ENDL '''
-    
+                | ELIF OPENP expresion CLOSEP body conditionPrima
+                | ENDL '''
+    if len(jumpStack) and len(p)>5:
+        addJumpToQuadruple()
+
 def p_factor(p):
     '''factor : OPENP expresion CLOSEP
                | factorPrima2
@@ -548,7 +543,6 @@ memory = {}
 variableDirection = {}
 
 #---------------------------Factorial--------------------------------------
-
 # #factorial
 # iterations= 0
 # factorial = 3
@@ -556,13 +550,12 @@ variableDirection = {}
 # while (iterations<factorial):
 #     iterations += 1
 #     start *= iterations
-
 # #print(start)
 
 # data1 = '''
-#     program buenCaso; var iterations, factorial, start: int; {
+#     program factorialCode; var iterations, factorial, start: int; {
 #         iterations = 0;
-#         factorial = 3;
+#         factorial = 4;
 #         start = 1;
 #         do{
 #             iterations = iterations + 1;
@@ -570,7 +563,7 @@ variableDirection = {}
 #         }while (iterations!=factorial);
 #         cout(start);
 #     }end
-# '''
+# '''  
 
 #---------------------------Fibonachi---------------------------------------
 # #fibonachi
@@ -586,22 +579,37 @@ variableDirection = {}
 #     start = aux
 
 
+# data1 = '''
+#     program fibonachiCode; var iterations, times, start, result, aux: int;{
+#         iterations = 0;
+#         times = 19;
+#         start = 1;
+#         result = 1;
+#         do{
+#             iterations = iterations + 1;
+#             aux = result;
+#             result = start + result;
+#             start = aux;
+#         }while (iterations!=times);
+#         cout(result);
+#     }end
+# '''
+
 data1 = '''
-    program buenCaso; var iterations, times, start, result, aux: int;{
-        iterations = 0;
-        times = 5;
-        start = 1;
-        result = 1;
-        do{
-            iterations = iterations + 1;
-            aux = result;
-            result = start + result;
-            start = aux;
-        }while (iterations!=times);
-        cout(result);
+    program fibonachiCode; var a, b, c, d: int;{
+        a=3;
+        b=4;
+        c=10;
+        if(a>b){
+            cout(a);
+        }elif(c>a){
+            cout(b);
+        }else{
+            cout(c);
+        };
     }end
 '''
-
+ 
 lexer.input(data1)
 
 # Tokenize
@@ -623,17 +631,18 @@ parser.parse(data1)
 #getSementicTable()
 
 #print quadruple table
-# print("\n-----------------------QUADRUPLE TABLE------------------------------\n")
-# for quadruple in quadrupleTable:
-#     print(quadruple, "\n")
-# print("\n--------------------------------------------------------------------\n")
+print("\n-----------------------QUADRUPLE TABLE------------------------------\n")
+for quadruple in quadrupleTable:
+    print(quadruple, "\n")
 
 createMemory()
 
-print("-------------------------VM-RESULT----------------------------------\n")
+print("-------------------------VM-OUTPUT------------------------------------\n")
 processProgram(quadrupleTable)
-# print(variableDirection)
-# print(memory)
+print("\n--------------------------------------------------------------------\n")
+
+print(variableDirection)
+print(memory)
 
 
 

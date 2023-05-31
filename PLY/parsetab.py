@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftPLUSMINUSleftMULTIPLYDIVIDECLOSEK CLOSEP COLON COMA COUT CTEFLOAT CTEINT CTESTRING DIVIDE DO ELSE END ENDL EQUAL FLOAT GREATER ID IF INT ISNOT LESS MINUS MULTIPLY OPENK OPENP PLUS PROGRAM VAR WHILEprogram : PROGRAM ID ENDL programPrimaprogramPrima : body END \n                     | vars body ENDvars : VAR ID idPrimaidPrima : COMA ID idPrima\n               | COLON typeidPrima2 : ID idPrimavarsPrima : \n               | idPrima2type : INT ENDL varsPrima\n            | FLOAT ENDL varsPrimabody : OPENK bodyPrima CLOSEKbodyPrima : \n               | statement bodyPrimastatement : assign\n               | condition\n               | cycle\n               | printprint : COUT OPENP printPrima printPrima : expresion expresionPrima\n               | CTESTRING expresionPrimaexpresionPrima : COMA printPrima \n               | CLOSEP ENDLassign : ID EQUAL expresion ENDLcycle : DO body WHILE OPENP expresion CLOSEP ENDLexpresion : exp  expresionPrima2expresionPrima2 : \n               | GREATER exp\n               | LESS exp\n               | ISNOT expcondition : IF OPENP expresion CLOSEP body conditionPrimaconditionPrima : ELSE body ENDL\n               | ENDL factor : OPENP expresion CLOSEP\n               | factorPrima2\n               | PLUS factorPrima2\n               | MINUS factorPrima2factorPrima2 : ID\n               | ctecte : CTEINT\n           | CTEFLOATexp : expPrimaexpPrima : termino PLUS exp\n                | termino MINUS exp\n                | terminotermino : terminoPrimaterminoPrima : factor MULTIPLY termino\n           | factor DIVIDE termino\n           | factor '
+_lr_signature = 'leftPLUSMINUSleftMULTIPLYDIVIDECLOSEK CLOSEP COLON COMA COUT CTEFLOAT CTEINT CTESTRING DIVIDE DO ELIF ELSE END ENDL EQUAL FLOAT GREATER ID IF INT ISNOT LESS MINUS MULTIPLY OPENK OPENP PLUS PROGRAM VAR WHILEprogram : PROGRAM ID ENDL programPrimaprogramPrima : body END \n                     | vars body ENDvars : VAR ID idPrimaidPrima : COMA ID idPrima\n               | COLON typeidPrima2 : ID idPrimavarsPrima : \n               | idPrima2type : INT ENDL varsPrima\n            | FLOAT ENDL varsPrimabody : OPENK bodyPrima CLOSEKbodyPrima : \n               | statement bodyPrimastatement : assign\n               | condition\n               | cycle\n               | printprint : COUT OPENP printPrima printPrima : expresion expresionPrima\n               | CTESTRING expresionPrimaexpresionPrima : COMA printPrima \n               | CLOSEP ENDLassign : ID EQUAL expresion ENDLcycle : DO body WHILE OPENP expresion CLOSEP ENDLexpresion : exp  expresionPrima2expresionPrima2 : \n               | GREATER exp\n               | LESS exp\n               | ISNOT expcondition : IF OPENP expresion CLOSEP body conditionPrimaconditionPrima : ELSE body ENDL\n                | ELIF OPENP expresion CLOSEP body conditionPrima\n                | ENDL factor : OPENP expresion CLOSEP\n               | factorPrima2\n               | PLUS factorPrima2\n               | MINUS factorPrima2factorPrima2 : ID\n               | ctecte : CTEINT\n           | CTEFLOATexp : expPrimaexpPrima : termino PLUS exp\n                | termino MINUS exp\n                | terminotermino : terminoPrimaterminoPrima : factor MULTIPLY termino\n           | factor DIVIDE termino\n           | factor '
     
-_lr_action_items = {'PROGRAM':([0,],[2,]),'$end':([1,5,10,23,],[0,-1,-2,-3,]),'ID':([2,8,9,13,14,15,16,17,26,27,29,31,38,39,42,49,56,58,59,60,61,62,65,66,69,70,71,73,75,76,87,88,93,95,99,100,],[3,18,22,18,-15,-16,-17,-18,33,33,33,52,33,33,33,-19,-24,33,33,33,33,33,33,33,33,-20,33,-21,91,91,-22,-23,-31,-33,-25,-32,]),'ENDL':([3,24,33,34,35,36,37,40,41,43,44,45,46,54,55,57,63,64,72,77,78,79,80,81,82,83,84,85,96,98,],[4,-12,-38,56,-27,-42,-45,-46,-49,-35,-39,-40,-41,75,76,-26,-36,-37,88,-28,-29,-30,-43,-44,-47,-48,-34,95,99,100,]),'OPENK':([4,7,20,30,53,68,74,75,76,89,90,92,94,97,],[8,8,8,-4,-6,8,-5,-8,-8,-10,-9,-11,8,-7,]),'VAR':([4,],[9,]),'END':([6,11,24,],[10,23,-12,]),'CLOSEK':([8,12,13,14,15,16,17,25,49,56,70,73,87,88,93,95,99,100,],[-13,24,-13,-15,-16,-17,-18,-14,-19,-24,-20,-21,-22,-23,-31,-33,-25,-32,]),'IF':([8,13,14,15,16,17,49,56,70,73,87,88,93,95,99,100,],[19,19,-15,-16,-17,-18,-19,-24,-20,-21,-22,-23,-31,-33,-25,-32,]),'DO':([8,13,14,15,16,17,49,56,70,73,87,88,93,95,99,100,],[20,20,-15,-16,-17,-18,-19,-24,-20,-21,-22,-23,-31,-33,-25,-32,]),'COUT':([8,13,14,15,16,17,49,56,70,73,87,88,93,95,99,100,],[21,21,-15,-16,-17,-18,-19,-24,-20,-21,-22,-23,-31,-33,-25,-32,]),'EQUAL':([18,],[26,]),'OPENP':([19,21,26,27,29,42,48,58,59,60,61,62,65,66,69,71,],[27,29,42,42,42,42,69,42,42,42,42,42,42,42,42,42,]),'COMA':([22,33,35,36,37,40,41,43,44,45,46,50,51,52,57,63,64,77,78,79,80,81,82,83,84,91,],[31,-38,-27,-42,-45,-46,-49,-35,-39,-40,-41,71,71,31,-26,-36,-37,-28,-29,-30,-43,-44,-47,-48,-34,31,]),'COLON':([22,52,91,],[32,32,32,]),'WHILE':([24,28,],[-12,48,]),'ELSE':([24,85,],[-12,94,]),'PLUS':([26,27,29,33,37,40,41,42,43,44,45,46,58,59,60,61,62,63,64,65,66,69,71,82,83,84,],[38,38,38,-38,61,-46,-49,38,-35,-39,-40,-41,38,38,38,38,38,-36,-37,38,38,38,38,-47,-48,-34,]),'MINUS':([26,27,29,33,37,40,41,42,43,44,45,46,58,59,60,61,62,63,64,65,66,69,71,82,83,84,],[39,39,39,-38,62,-46,-49,39,-35,-39,-40,-41,39,39,39,39,39,-36,-37,39,39,39,39,-47,-48,-34,]),'CTEINT':([26,27,29,38,39,42,58,59,60,61,62,65,66,69,71,],[45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,]),'CTEFLOAT':([26,27,29,38,39,42,58,59,60,61,62,65,66,69,71,],[46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,]),'CTESTRING':([29,71,],[51,51,]),'INT':([32,],[54,]),'FLOAT':([32,],[55,]),'MULTIPLY':([33,41,43,44,45,46,63,64,84,],[-38,65,-35,-39,-40,-41,-36,-37,-34,]),'DIVIDE':([33,41,43,44,45,46,63,64,84,],[-38,66,-35,-39,-40,-41,-36,-37,-34,]),'GREATER':([33,35,36,37,40,41,43,44,45,46,63,64,80,81,82,83,84,],[-38,58,-42,-45,-46,-49,-35,-39,-40,-41,-36,-37,-43,-44,-47,-48,-34,]),'LESS':([33,35,36,37,40,41,43,44,45,46,63,64,80,81,82,83,84,],[-38,59,-42,-45,-46,-49,-35,-39,-40,-41,-36,-37,-43,-44,-47,-48,-34,]),'ISNOT':([33,35,36,37,40,41,43,44,45,46,63,64,80,81,82,83,84,],[-38,60,-42,-45,-46,-49,-35,-39,-40,-41,-36,-37,-43,-44,-47,-48,-34,]),'CLOSEP':([33,35,36,37,40,41,43,44,45,46,47,50,51,57,63,64,67,77,78,79,80,81,82,83,84,86,],[-38,-27,-42,-45,-46,-49,-35,-39,-40,-41,68,72,72,-26,-36,-37,84,-28,-29,-30,-43,-44,-47,-48,-34,96,]),}
+_lr_action_items = {'PROGRAM':([0,],[2,]),'$end':([1,5,10,23,],[0,-1,-2,-3,]),'ID':([2,8,9,13,14,15,16,17,26,27,29,31,38,39,42,49,56,58,59,60,61,62,65,66,69,70,71,73,75,76,87,88,93,95,100,101,102,106,],[3,18,22,18,-15,-16,-17,-18,33,33,33,52,33,33,33,-19,-24,33,33,33,33,33,33,33,33,-20,33,-21,91,91,-22,-23,-31,-34,33,-25,-32,-33,]),'ENDL':([3,24,33,34,35,36,37,40,41,43,44,45,46,54,55,57,63,64,72,77,78,79,80,81,82,83,84,85,97,99,105,],[4,-12,-39,56,-27,-43,-46,-47,-50,-36,-40,-41,-42,75,76,-26,-37,-38,88,-28,-29,-30,-44,-45,-48,-49,-35,95,101,102,95,]),'OPENK':([4,7,20,30,53,68,74,75,76,89,90,92,94,98,104,],[8,8,8,-4,-6,8,-5,-8,-8,-10,-9,-11,8,-7,8,]),'VAR':([4,],[9,]),'END':([6,11,24,],[10,23,-12,]),'CLOSEK':([8,12,13,14,15,16,17,25,49,56,70,73,87,88,93,95,101,102,106,],[-13,24,-13,-15,-16,-17,-18,-14,-19,-24,-20,-21,-22,-23,-31,-34,-25,-32,-33,]),'IF':([8,13,14,15,16,17,49,56,70,73,87,88,93,95,101,102,106,],[19,19,-15,-16,-17,-18,-19,-24,-20,-21,-22,-23,-31,-34,-25,-32,-33,]),'DO':([8,13,14,15,16,17,49,56,70,73,87,88,93,95,101,102,106,],[20,20,-15,-16,-17,-18,-19,-24,-20,-21,-22,-23,-31,-34,-25,-32,-33,]),'COUT':([8,13,14,15,16,17,49,56,70,73,87,88,93,95,101,102,106,],[21,21,-15,-16,-17,-18,-19,-24,-20,-21,-22,-23,-31,-34,-25,-32,-33,]),'EQUAL':([18,],[26,]),'OPENP':([19,21,26,27,29,42,48,58,59,60,61,62,65,66,69,71,96,100,],[27,29,42,42,42,42,69,42,42,42,42,42,42,42,42,42,100,42,]),'COMA':([22,33,35,36,37,40,41,43,44,45,46,50,51,52,57,63,64,77,78,79,80,81,82,83,84,91,],[31,-39,-27,-43,-46,-47,-50,-36,-40,-41,-42,71,71,31,-26,-37,-38,-28,-29,-30,-44,-45,-48,-49,-35,31,]),'COLON':([22,52,91,],[32,32,32,]),'WHILE':([24,28,],[-12,48,]),'ELSE':([24,85,105,],[-12,94,94,]),'ELIF':([24,85,105,],[-12,96,96,]),'PLUS':([26,27,29,33,37,40,41,42,43,44,45,46,58,59,60,61,62,63,64,65,66,69,71,82,83,84,100,],[38,38,38,-39,61,-47,-50,38,-36,-40,-41,-42,38,38,38,38,38,-37,-38,38,38,38,38,-48,-49,-35,38,]),'MINUS':([26,27,29,33,37,40,41,42,43,44,45,46,58,59,60,61,62,63,64,65,66,69,71,82,83,84,100,],[39,39,39,-39,62,-47,-50,39,-36,-40,-41,-42,39,39,39,39,39,-37,-38,39,39,39,39,-48,-49,-35,39,]),'CTEINT':([26,27,29,38,39,42,58,59,60,61,62,65,66,69,71,100,],[45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,]),'CTEFLOAT':([26,27,29,38,39,42,58,59,60,61,62,65,66,69,71,100,],[46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,]),'CTESTRING':([29,71,],[51,51,]),'INT':([32,],[54,]),'FLOAT':([32,],[55,]),'MULTIPLY':([33,41,43,44,45,46,63,64,84,],[-39,65,-36,-40,-41,-42,-37,-38,-35,]),'DIVIDE':([33,41,43,44,45,46,63,64,84,],[-39,66,-36,-40,-41,-42,-37,-38,-35,]),'GREATER':([33,35,36,37,40,41,43,44,45,46,63,64,80,81,82,83,84,],[-39,58,-43,-46,-47,-50,-36,-40,-41,-42,-37,-38,-44,-45,-48,-49,-35,]),'LESS':([33,35,36,37,40,41,43,44,45,46,63,64,80,81,82,83,84,],[-39,59,-43,-46,-47,-50,-36,-40,-41,-42,-37,-38,-44,-45,-48,-49,-35,]),'ISNOT':([33,35,36,37,40,41,43,44,45,46,63,64,80,81,82,83,84,],[-39,60,-43,-46,-47,-50,-36,-40,-41,-42,-37,-38,-44,-45,-48,-49,-35,]),'CLOSEP':([33,35,36,37,40,41,43,44,45,46,47,50,51,57,63,64,67,77,78,79,80,81,82,83,84,86,103,],[-39,-27,-43,-46,-47,-50,-36,-40,-41,-42,68,72,72,-26,-37,-38,84,-28,-29,-30,-44,-45,-48,-49,-35,97,104,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'programPrima':([4,],[5,]),'body':([4,7,20,68,94,],[6,11,28,85,98,]),'vars':([4,],[7,]),'bodyPrima':([8,13,],[12,25,]),'statement':([8,13,],[13,13,]),'assign':([8,13,],[14,14,]),'condition':([8,13,],[15,15,]),'cycle':([8,13,],[16,16,]),'print':([8,13,],[17,17,]),'idPrima':([22,52,91,],[30,74,97,]),'expresion':([26,27,29,42,69,71,],[34,47,50,67,86,50,]),'exp':([26,27,29,42,58,59,60,61,62,69,71,],[35,35,35,35,77,78,79,80,81,35,35,]),'expPrima':([26,27,29,42,58,59,60,61,62,69,71,],[36,36,36,36,36,36,36,36,36,36,36,]),'termino':([26,27,29,42,58,59,60,61,62,65,66,69,71,],[37,37,37,37,37,37,37,37,37,82,83,37,37,]),'terminoPrima':([26,27,29,42,58,59,60,61,62,65,66,69,71,],[40,40,40,40,40,40,40,40,40,40,40,40,40,]),'factor':([26,27,29,42,58,59,60,61,62,65,66,69,71,],[41,41,41,41,41,41,41,41,41,41,41,41,41,]),'factorPrima2':([26,27,29,38,39,42,58,59,60,61,62,65,66,69,71,],[43,43,43,63,64,43,43,43,43,43,43,43,43,43,43,]),'cte':([26,27,29,38,39,42,58,59,60,61,62,65,66,69,71,],[44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,]),'printPrima':([29,71,],[49,87,]),'type':([32,],[53,]),'expresionPrima2':([35,],[57,]),'expresionPrima':([50,51,],[70,73,]),'varsPrima':([75,76,],[89,92,]),'idPrima2':([75,76,],[90,90,]),'conditionPrima':([85,],[93,]),}
+_lr_goto_items = {'program':([0,],[1,]),'programPrima':([4,],[5,]),'body':([4,7,20,68,94,104,],[6,11,28,85,99,105,]),'vars':([4,],[7,]),'bodyPrima':([8,13,],[12,25,]),'statement':([8,13,],[13,13,]),'assign':([8,13,],[14,14,]),'condition':([8,13,],[15,15,]),'cycle':([8,13,],[16,16,]),'print':([8,13,],[17,17,]),'idPrima':([22,52,91,],[30,74,98,]),'expresion':([26,27,29,42,69,71,100,],[34,47,50,67,86,50,103,]),'exp':([26,27,29,42,58,59,60,61,62,69,71,100,],[35,35,35,35,77,78,79,80,81,35,35,35,]),'expPrima':([26,27,29,42,58,59,60,61,62,69,71,100,],[36,36,36,36,36,36,36,36,36,36,36,36,]),'termino':([26,27,29,42,58,59,60,61,62,65,66,69,71,100,],[37,37,37,37,37,37,37,37,37,82,83,37,37,37,]),'terminoPrima':([26,27,29,42,58,59,60,61,62,65,66,69,71,100,],[40,40,40,40,40,40,40,40,40,40,40,40,40,40,]),'factor':([26,27,29,42,58,59,60,61,62,65,66,69,71,100,],[41,41,41,41,41,41,41,41,41,41,41,41,41,41,]),'factorPrima2':([26,27,29,38,39,42,58,59,60,61,62,65,66,69,71,100,],[43,43,43,63,64,43,43,43,43,43,43,43,43,43,43,43,]),'cte':([26,27,29,38,39,42,58,59,60,61,62,65,66,69,71,100,],[44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,]),'printPrima':([29,71,],[49,87,]),'type':([32,],[53,]),'expresionPrima2':([35,],[57,]),'expresionPrima':([50,51,],[70,73,]),'varsPrima':([75,76,],[89,92,]),'idPrima2':([75,76,],[90,90,]),'conditionPrima':([85,105,],[93,106,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,53 +27,54 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> program","S'",1,None,None,None),
-  ('program -> PROGRAM ID ENDL programPrima','program',4,'p_program','lex.py',201),
-  ('programPrima -> body END','programPrima',2,'p_programPrima','lex.py',208),
-  ('programPrima -> vars body END','programPrima',3,'p_programPrima','lex.py',209),
-  ('vars -> VAR ID idPrima','vars',3,'p_vars','lex.py',212),
-  ('idPrima -> COMA ID idPrima','idPrima',3,'p_idPrima','lex.py',216),
-  ('idPrima -> COLON type','idPrima',2,'p_idPrima','lex.py',217),
-  ('idPrima2 -> ID idPrima','idPrima2',2,'p_idPrima2','lex.py',223),
-  ('varsPrima -> <empty>','varsPrima',0,'p_varsPrima','lex.py',228),
-  ('varsPrima -> idPrima2','varsPrima',1,'p_varsPrima','lex.py',229),
-  ('type -> INT ENDL varsPrima','type',3,'p_type','lex.py',232),
-  ('type -> FLOAT ENDL varsPrima','type',3,'p_type','lex.py',233),
-  ('body -> OPENK bodyPrima CLOSEK','body',3,'p_body','lex.py',239),
-  ('bodyPrima -> <empty>','bodyPrima',0,'p_bodyPrima','lex.py',243),
-  ('bodyPrima -> statement bodyPrima','bodyPrima',2,'p_bodyPrima','lex.py',244),
-  ('statement -> assign','statement',1,'p_statement','lex.py',247),
-  ('statement -> condition','statement',1,'p_statement','lex.py',248),
-  ('statement -> cycle','statement',1,'p_statement','lex.py',249),
-  ('statement -> print','statement',1,'p_statement','lex.py',250),
-  ('print -> COUT OPENP printPrima','print',3,'p_print','lex.py',253),
-  ('printPrima -> expresion expresionPrima','printPrima',2,'p_printPrima','lex.py',256),
-  ('printPrima -> CTESTRING expresionPrima','printPrima',2,'p_printPrima','lex.py',257),
-  ('expresionPrima -> COMA printPrima','expresionPrima',2,'p_expresionPrima','lex.py',260),
-  ('expresionPrima -> CLOSEP ENDL','expresionPrima',2,'p_expresionPrima','lex.py',261),
-  ('assign -> ID EQUAL expresion ENDL','assign',4,'p_assign','lex.py',264),
-  ('cycle -> DO body WHILE OPENP expresion CLOSEP ENDL','cycle',7,'p_cycle','lex.py',270),
-  ('expresion -> exp expresionPrima2','expresion',2,'p_expresion','lex.py',278),
-  ('expresionPrima2 -> <empty>','expresionPrima2',0,'p_expresionPrima2','lex.py',281),
-  ('expresionPrima2 -> GREATER exp','expresionPrima2',2,'p_expresionPrima2','lex.py',282),
-  ('expresionPrima2 -> LESS exp','expresionPrima2',2,'p_expresionPrima2','lex.py',283),
-  ('expresionPrima2 -> ISNOT exp','expresionPrima2',2,'p_expresionPrima2','lex.py',284),
-  ('condition -> IF OPENP expresion CLOSEP body conditionPrima','condition',6,'p_condition','lex.py',290),
-  ('conditionPrima -> ELSE body ENDL','conditionPrima',3,'p_conditionPrima','lex.py',296),
-  ('conditionPrima -> ENDL','conditionPrima',1,'p_conditionPrima','lex.py',297),
-  ('factor -> OPENP expresion CLOSEP','factor',3,'p_factor','lex.py',300),
-  ('factor -> factorPrima2','factor',1,'p_factor','lex.py',301),
-  ('factor -> PLUS factorPrima2','factor',2,'p_factor','lex.py',302),
-  ('factor -> MINUS factorPrima2','factor',2,'p_factor','lex.py',303),
-  ('factorPrima2 -> ID','factorPrima2',1,'p_factorPrima2','lex.py',311),
-  ('factorPrima2 -> cte','factorPrima2',1,'p_factorPrima2','lex.py',312),
-  ('cte -> CTEINT','cte',1,'p_cte','lex.py',317),
-  ('cte -> CTEFLOAT','cte',1,'p_cte','lex.py',318),
-  ('exp -> expPrima','exp',1,'p_exp','lex.py',323),
-  ('expPrima -> termino PLUS exp','expPrima',3,'p_expPrima','lex.py',326),
-  ('expPrima -> termino MINUS exp','expPrima',3,'p_expPrima','lex.py',327),
-  ('expPrima -> termino','expPrima',1,'p_expPrima','lex.py',328),
-  ('termino -> terminoPrima','termino',1,'p_termino','lex.py',334),
-  ('terminoPrima -> factor MULTIPLY termino','terminoPrima',3,'p_terminoPrima','lex.py',337),
-  ('terminoPrima -> factor DIVIDE termino','terminoPrima',3,'p_terminoPrima','lex.py',338),
-  ('terminoPrima -> factor','terminoPrima',1,'p_terminoPrima','lex.py',339),
+  ('program -> PROGRAM ID ENDL programPrima','program',4,'p_program','lex.py',364),
+  ('programPrima -> body END','programPrima',2,'p_programPrima','lex.py',371),
+  ('programPrima -> vars body END','programPrima',3,'p_programPrima','lex.py',372),
+  ('vars -> VAR ID idPrima','vars',3,'p_vars','lex.py',375),
+  ('idPrima -> COMA ID idPrima','idPrima',3,'p_idPrima','lex.py',379),
+  ('idPrima -> COLON type','idPrima',2,'p_idPrima','lex.py',380),
+  ('idPrima2 -> ID idPrima','idPrima2',2,'p_idPrima2','lex.py',386),
+  ('varsPrima -> <empty>','varsPrima',0,'p_varsPrima','lex.py',391),
+  ('varsPrima -> idPrima2','varsPrima',1,'p_varsPrima','lex.py',392),
+  ('type -> INT ENDL varsPrima','type',3,'p_type','lex.py',395),
+  ('type -> FLOAT ENDL varsPrima','type',3,'p_type','lex.py',396),
+  ('body -> OPENK bodyPrima CLOSEK','body',3,'p_body','lex.py',402),
+  ('bodyPrima -> <empty>','bodyPrima',0,'p_bodyPrima','lex.py',406),
+  ('bodyPrima -> statement bodyPrima','bodyPrima',2,'p_bodyPrima','lex.py',407),
+  ('statement -> assign','statement',1,'p_statement','lex.py',410),
+  ('statement -> condition','statement',1,'p_statement','lex.py',411),
+  ('statement -> cycle','statement',1,'p_statement','lex.py',412),
+  ('statement -> print','statement',1,'p_statement','lex.py',413),
+  ('print -> COUT OPENP printPrima','print',3,'p_print','lex.py',416),
+  ('printPrima -> expresion expresionPrima','printPrima',2,'p_printPrima','lex.py',421),
+  ('printPrima -> CTESTRING expresionPrima','printPrima',2,'p_printPrima','lex.py',422),
+  ('expresionPrima -> COMA printPrima','expresionPrima',2,'p_expresionPrima','lex.py',425),
+  ('expresionPrima -> CLOSEP ENDL','expresionPrima',2,'p_expresionPrima','lex.py',426),
+  ('assign -> ID EQUAL expresion ENDL','assign',4,'p_assign','lex.py',429),
+  ('cycle -> DO body WHILE OPENP expresion CLOSEP ENDL','cycle',7,'p_cycle','lex.py',435),
+  ('expresion -> exp expresionPrima2','expresion',2,'p_expresion','lex.py',443),
+  ('expresionPrima2 -> <empty>','expresionPrima2',0,'p_expresionPrima2','lex.py',446),
+  ('expresionPrima2 -> GREATER exp','expresionPrima2',2,'p_expresionPrima2','lex.py',447),
+  ('expresionPrima2 -> LESS exp','expresionPrima2',2,'p_expresionPrima2','lex.py',448),
+  ('expresionPrima2 -> ISNOT exp','expresionPrima2',2,'p_expresionPrima2','lex.py',449),
+  ('condition -> IF OPENP expresion CLOSEP body conditionPrima','condition',6,'p_condition','lex.py',455),
+  ('conditionPrima -> ELSE body ENDL','conditionPrima',3,'p_conditionPrima','lex.py',460),
+  ('conditionPrima -> ELIF OPENP expresion CLOSEP body conditionPrima','conditionPrima',6,'p_conditionPrima','lex.py',461),
+  ('conditionPrima -> ENDL','conditionPrima',1,'p_conditionPrima','lex.py',462),
+  ('factor -> OPENP expresion CLOSEP','factor',3,'p_factor','lex.py',465),
+  ('factor -> factorPrima2','factor',1,'p_factor','lex.py',466),
+  ('factor -> PLUS factorPrima2','factor',2,'p_factor','lex.py',467),
+  ('factor -> MINUS factorPrima2','factor',2,'p_factor','lex.py',468),
+  ('factorPrima2 -> ID','factorPrima2',1,'p_factorPrima2','lex.py',476),
+  ('factorPrima2 -> cte','factorPrima2',1,'p_factorPrima2','lex.py',477),
+  ('cte -> CTEINT','cte',1,'p_cte','lex.py',482),
+  ('cte -> CTEFLOAT','cte',1,'p_cte','lex.py',483),
+  ('exp -> expPrima','exp',1,'p_exp','lex.py',488),
+  ('expPrima -> termino PLUS exp','expPrima',3,'p_expPrima','lex.py',491),
+  ('expPrima -> termino MINUS exp','expPrima',3,'p_expPrima','lex.py',492),
+  ('expPrima -> termino','expPrima',1,'p_expPrima','lex.py',493),
+  ('termino -> terminoPrima','termino',1,'p_termino','lex.py',499),
+  ('terminoPrima -> factor MULTIPLY termino','terminoPrima',3,'p_terminoPrima','lex.py',502),
+  ('terminoPrima -> factor DIVIDE termino','terminoPrima',3,'p_terminoPrima','lex.py',503),
+  ('terminoPrima -> factor','terminoPrima',1,'p_terminoPrima','lex.py',504),
 ]

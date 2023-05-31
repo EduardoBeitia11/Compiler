@@ -35,52 +35,54 @@ Rule 29    expresionPrima2 -> LESS exp
 Rule 30    expresionPrima2 -> ISNOT exp
 Rule 31    condition -> IF OPENP expresion CLOSEP body conditionPrima
 Rule 32    conditionPrima -> ELSE body ENDL
-Rule 33    conditionPrima -> ENDL
-Rule 34    factor -> OPENP expresion CLOSEP
-Rule 35    factor -> factorPrima2
-Rule 36    factor -> PLUS factorPrima2
-Rule 37    factor -> MINUS factorPrima2
-Rule 38    factorPrima2 -> ID
-Rule 39    factorPrima2 -> cte
-Rule 40    cte -> CTEINT
-Rule 41    cte -> CTEFLOAT
-Rule 42    exp -> expPrima
-Rule 43    expPrima -> termino PLUS exp
-Rule 44    expPrima -> termino MINUS exp
-Rule 45    expPrima -> termino
-Rule 46    termino -> terminoPrima
-Rule 47    terminoPrima -> factor MULTIPLY termino
-Rule 48    terminoPrima -> factor DIVIDE termino
-Rule 49    terminoPrima -> factor
+Rule 33    conditionPrima -> ELIF OPENP expresion CLOSEP body conditionPrima
+Rule 34    conditionPrima -> ENDL
+Rule 35    factor -> OPENP expresion CLOSEP
+Rule 36    factor -> factorPrima2
+Rule 37    factor -> PLUS factorPrima2
+Rule 38    factor -> MINUS factorPrima2
+Rule 39    factorPrima2 -> ID
+Rule 40    factorPrima2 -> cte
+Rule 41    cte -> CTEINT
+Rule 42    cte -> CTEFLOAT
+Rule 43    exp -> expPrima
+Rule 44    expPrima -> termino PLUS exp
+Rule 45    expPrima -> termino MINUS exp
+Rule 46    expPrima -> termino
+Rule 47    termino -> terminoPrima
+Rule 48    terminoPrima -> factor MULTIPLY termino
+Rule 49    terminoPrima -> factor DIVIDE termino
+Rule 50    terminoPrima -> factor
 
 Terminals, with rules where they appear
 
 CLOSEK               : 12
-CLOSEP               : 23 25 31 34
+CLOSEP               : 23 25 31 33 35
 COLON                : 6
 COMA                 : 5 22
 COUT                 : 19
-CTEFLOAT             : 41
-CTEINT               : 40
+CTEFLOAT             : 42
+CTEINT               : 41
 CTESTRING            : 21
-DIVIDE               : 48
+DIVIDE               : 49
 DO                   : 25
+ELIF                 : 33
 ELSE                 : 32
 END                  : 2 3
-ENDL                 : 1 10 11 23 24 25 32 33
+ENDL                 : 1 10 11 23 24 25 32 34
 EQUAL                : 24
 FLOAT                : 11
 GREATER              : 28
-ID                   : 1 4 5 7 24 38
+ID                   : 1 4 5 7 24 39
 IF                   : 31
 INT                  : 10
 ISNOT                : 30
 LESS                 : 29
-MINUS                : 37 44
-MULTIPLY             : 47
+MINUS                : 38 45
+MULTIPLY             : 48
 OPENK                : 12
-OPENP                : 19 25 31 34
-PLUS                 : 36 43
+OPENP                : 19 25 31 33 35
+PLUS                 : 37 44
 PROGRAM              : 1
 VAR                  : 4
 WHILE                : 25
@@ -89,19 +91,19 @@ error                :
 Nonterminals, with rules where they appear
 
 assign               : 15
-body                 : 2 3 25 31 32
+body                 : 2 3 25 31 32 33
 bodyPrima            : 12 14
 condition            : 16
-conditionPrima       : 31
-cte                  : 39
+conditionPrima       : 31 33
+cte                  : 40
 cycle                : 17
-exp                  : 26 28 29 30 43 44
-expPrima             : 42
-expresion            : 20 24 25 31 34
+exp                  : 26 28 29 30 44 45
+expPrima             : 43
+expresion            : 20 24 25 31 33 35
 expresionPrima       : 20 21
 expresionPrima2      : 26
-factor               : 47 48 49
-factorPrima2         : 35 36 37
+factor               : 48 49 50
+factorPrima2         : 36 37 38
 idPrima              : 4 5 7
 idPrima2             : 9
 print                : 18
@@ -109,8 +111,8 @@ printPrima           : 19 22
 program              : 0
 programPrima         : 1
 statement            : 14
-termino              : 43 44 45 47 48
-terminoPrima         : 46
+termino              : 44 45 46 48 49
+terminoPrima         : 47
 type                 : 6
 vars                 : 3
 varsPrima            : 10 11
@@ -365,6 +367,7 @@ state 24
     END             reduce using rule 12 (body -> OPENK bodyPrima CLOSEK .)
     WHILE           reduce using rule 12 (body -> OPENK bodyPrima CLOSEK .)
     ELSE            reduce using rule 12 (body -> OPENK bodyPrima CLOSEK .)
+    ELIF            reduce using rule 12 (body -> OPENK bodyPrima CLOSEK .)
     ENDL            reduce using rule 12 (body -> OPENK bodyPrima CLOSEK .)
 
 
@@ -379,22 +382,22 @@ state 26
 
     (24) assign -> ID EQUAL . expresion ENDL
     (26) expresion -> . exp expresionPrima2
-    (42) exp -> . expPrima
-    (43) expPrima -> . termino PLUS exp
-    (44) expPrima -> . termino MINUS exp
-    (45) expPrima -> . termino
-    (46) termino -> . terminoPrima
-    (47) terminoPrima -> . factor MULTIPLY termino
-    (48) terminoPrima -> . factor DIVIDE termino
-    (49) terminoPrima -> . factor
-    (34) factor -> . OPENP expresion CLOSEP
-    (35) factor -> . factorPrima2
-    (36) factor -> . PLUS factorPrima2
-    (37) factor -> . MINUS factorPrima2
-    (38) factorPrima2 -> . ID
-    (39) factorPrima2 -> . cte
-    (40) cte -> . CTEINT
-    (41) cte -> . CTEFLOAT
+    (43) exp -> . expPrima
+    (44) expPrima -> . termino PLUS exp
+    (45) expPrima -> . termino MINUS exp
+    (46) expPrima -> . termino
+    (47) termino -> . terminoPrima
+    (48) terminoPrima -> . factor MULTIPLY termino
+    (49) terminoPrima -> . factor DIVIDE termino
+    (50) terminoPrima -> . factor
+    (35) factor -> . OPENP expresion CLOSEP
+    (36) factor -> . factorPrima2
+    (37) factor -> . PLUS factorPrima2
+    (38) factor -> . MINUS factorPrima2
+    (39) factorPrima2 -> . ID
+    (40) factorPrima2 -> . cte
+    (41) cte -> . CTEINT
+    (42) cte -> . CTEFLOAT
 
     OPENP           shift and go to state 42
     PLUS            shift and go to state 38
@@ -416,22 +419,22 @@ state 27
 
     (31) condition -> IF OPENP . expresion CLOSEP body conditionPrima
     (26) expresion -> . exp expresionPrima2
-    (42) exp -> . expPrima
-    (43) expPrima -> . termino PLUS exp
-    (44) expPrima -> . termino MINUS exp
-    (45) expPrima -> . termino
-    (46) termino -> . terminoPrima
-    (47) terminoPrima -> . factor MULTIPLY termino
-    (48) terminoPrima -> . factor DIVIDE termino
-    (49) terminoPrima -> . factor
-    (34) factor -> . OPENP expresion CLOSEP
-    (35) factor -> . factorPrima2
-    (36) factor -> . PLUS factorPrima2
-    (37) factor -> . MINUS factorPrima2
-    (38) factorPrima2 -> . ID
-    (39) factorPrima2 -> . cte
-    (40) cte -> . CTEINT
-    (41) cte -> . CTEFLOAT
+    (43) exp -> . expPrima
+    (44) expPrima -> . termino PLUS exp
+    (45) expPrima -> . termino MINUS exp
+    (46) expPrima -> . termino
+    (47) termino -> . terminoPrima
+    (48) terminoPrima -> . factor MULTIPLY termino
+    (49) terminoPrima -> . factor DIVIDE termino
+    (50) terminoPrima -> . factor
+    (35) factor -> . OPENP expresion CLOSEP
+    (36) factor -> . factorPrima2
+    (37) factor -> . PLUS factorPrima2
+    (38) factor -> . MINUS factorPrima2
+    (39) factorPrima2 -> . ID
+    (40) factorPrima2 -> . cte
+    (41) cte -> . CTEINT
+    (42) cte -> . CTEFLOAT
 
     OPENP           shift and go to state 42
     PLUS            shift and go to state 38
@@ -462,22 +465,22 @@ state 29
     (20) printPrima -> . expresion expresionPrima
     (21) printPrima -> . CTESTRING expresionPrima
     (26) expresion -> . exp expresionPrima2
-    (42) exp -> . expPrima
-    (43) expPrima -> . termino PLUS exp
-    (44) expPrima -> . termino MINUS exp
-    (45) expPrima -> . termino
-    (46) termino -> . terminoPrima
-    (47) terminoPrima -> . factor MULTIPLY termino
-    (48) terminoPrima -> . factor DIVIDE termino
-    (49) terminoPrima -> . factor
-    (34) factor -> . OPENP expresion CLOSEP
-    (35) factor -> . factorPrima2
-    (36) factor -> . PLUS factorPrima2
-    (37) factor -> . MINUS factorPrima2
-    (38) factorPrima2 -> . ID
-    (39) factorPrima2 -> . cte
-    (40) cte -> . CTEINT
-    (41) cte -> . CTEFLOAT
+    (43) exp -> . expPrima
+    (44) expPrima -> . termino PLUS exp
+    (45) expPrima -> . termino MINUS exp
+    (46) expPrima -> . termino
+    (47) termino -> . terminoPrima
+    (48) terminoPrima -> . factor MULTIPLY termino
+    (49) terminoPrima -> . factor DIVIDE termino
+    (50) terminoPrima -> . factor
+    (35) factor -> . OPENP expresion CLOSEP
+    (36) factor -> . factorPrima2
+    (37) factor -> . PLUS factorPrima2
+    (38) factor -> . MINUS factorPrima2
+    (39) factorPrima2 -> . ID
+    (40) factorPrima2 -> . cte
+    (41) cte -> . CTEINT
+    (42) cte -> . CTEFLOAT
 
     CTESTRING       shift and go to state 51
     OPENP           shift and go to state 42
@@ -524,18 +527,18 @@ state 32
 
 state 33
 
-    (38) factorPrima2 -> ID .
+    (39) factorPrima2 -> ID .
 
-    MULTIPLY        reduce using rule 38 (factorPrima2 -> ID .)
-    DIVIDE          reduce using rule 38 (factorPrima2 -> ID .)
-    PLUS            reduce using rule 38 (factorPrima2 -> ID .)
-    MINUS           reduce using rule 38 (factorPrima2 -> ID .)
-    GREATER         reduce using rule 38 (factorPrima2 -> ID .)
-    LESS            reduce using rule 38 (factorPrima2 -> ID .)
-    ISNOT           reduce using rule 38 (factorPrima2 -> ID .)
-    ENDL            reduce using rule 38 (factorPrima2 -> ID .)
-    CLOSEP          reduce using rule 38 (factorPrima2 -> ID .)
-    COMA            reduce using rule 38 (factorPrima2 -> ID .)
+    MULTIPLY        reduce using rule 39 (factorPrima2 -> ID .)
+    DIVIDE          reduce using rule 39 (factorPrima2 -> ID .)
+    PLUS            reduce using rule 39 (factorPrima2 -> ID .)
+    MINUS           reduce using rule 39 (factorPrima2 -> ID .)
+    GREATER         reduce using rule 39 (factorPrima2 -> ID .)
+    LESS            reduce using rule 39 (factorPrima2 -> ID .)
+    ISNOT           reduce using rule 39 (factorPrima2 -> ID .)
+    ENDL            reduce using rule 39 (factorPrima2 -> ID .)
+    CLOSEP          reduce using rule 39 (factorPrima2 -> ID .)
+    COMA            reduce using rule 39 (factorPrima2 -> ID .)
 
 
 state 34
@@ -564,39 +567,39 @@ state 35
 
 state 36
 
-    (42) exp -> expPrima .
+    (43) exp -> expPrima .
 
-    GREATER         reduce using rule 42 (exp -> expPrima .)
-    LESS            reduce using rule 42 (exp -> expPrima .)
-    ISNOT           reduce using rule 42 (exp -> expPrima .)
-    ENDL            reduce using rule 42 (exp -> expPrima .)
-    CLOSEP          reduce using rule 42 (exp -> expPrima .)
-    COMA            reduce using rule 42 (exp -> expPrima .)
+    GREATER         reduce using rule 43 (exp -> expPrima .)
+    LESS            reduce using rule 43 (exp -> expPrima .)
+    ISNOT           reduce using rule 43 (exp -> expPrima .)
+    ENDL            reduce using rule 43 (exp -> expPrima .)
+    CLOSEP          reduce using rule 43 (exp -> expPrima .)
+    COMA            reduce using rule 43 (exp -> expPrima .)
 
 
 state 37
 
-    (43) expPrima -> termino . PLUS exp
-    (44) expPrima -> termino . MINUS exp
-    (45) expPrima -> termino .
+    (44) expPrima -> termino . PLUS exp
+    (45) expPrima -> termino . MINUS exp
+    (46) expPrima -> termino .
 
     PLUS            shift and go to state 61
     MINUS           shift and go to state 62
-    GREATER         reduce using rule 45 (expPrima -> termino .)
-    LESS            reduce using rule 45 (expPrima -> termino .)
-    ISNOT           reduce using rule 45 (expPrima -> termino .)
-    ENDL            reduce using rule 45 (expPrima -> termino .)
-    CLOSEP          reduce using rule 45 (expPrima -> termino .)
-    COMA            reduce using rule 45 (expPrima -> termino .)
+    GREATER         reduce using rule 46 (expPrima -> termino .)
+    LESS            reduce using rule 46 (expPrima -> termino .)
+    ISNOT           reduce using rule 46 (expPrima -> termino .)
+    ENDL            reduce using rule 46 (expPrima -> termino .)
+    CLOSEP          reduce using rule 46 (expPrima -> termino .)
+    COMA            reduce using rule 46 (expPrima -> termino .)
 
 
 state 38
 
-    (36) factor -> PLUS . factorPrima2
-    (38) factorPrima2 -> . ID
-    (39) factorPrima2 -> . cte
-    (40) cte -> . CTEINT
-    (41) cte -> . CTEFLOAT
+    (37) factor -> PLUS . factorPrima2
+    (39) factorPrima2 -> . ID
+    (40) factorPrima2 -> . cte
+    (41) cte -> . CTEINT
+    (42) cte -> . CTEFLOAT
 
     ID              shift and go to state 33
     CTEINT          shift and go to state 45
@@ -607,11 +610,11 @@ state 38
 
 state 39
 
-    (37) factor -> MINUS . factorPrima2
-    (38) factorPrima2 -> . ID
-    (39) factorPrima2 -> . cte
-    (40) cte -> . CTEINT
-    (41) cte -> . CTEFLOAT
+    (38) factor -> MINUS . factorPrima2
+    (39) factorPrima2 -> . ID
+    (40) factorPrima2 -> . cte
+    (41) cte -> . CTEINT
+    (42) cte -> . CTEFLOAT
 
     ID              shift and go to state 33
     CTEINT          shift and go to state 45
@@ -622,56 +625,56 @@ state 39
 
 state 40
 
-    (46) termino -> terminoPrima .
+    (47) termino -> terminoPrima .
 
-    PLUS            reduce using rule 46 (termino -> terminoPrima .)
-    MINUS           reduce using rule 46 (termino -> terminoPrima .)
-    GREATER         reduce using rule 46 (termino -> terminoPrima .)
-    LESS            reduce using rule 46 (termino -> terminoPrima .)
-    ISNOT           reduce using rule 46 (termino -> terminoPrima .)
-    ENDL            reduce using rule 46 (termino -> terminoPrima .)
-    CLOSEP          reduce using rule 46 (termino -> terminoPrima .)
-    COMA            reduce using rule 46 (termino -> terminoPrima .)
+    PLUS            reduce using rule 47 (termino -> terminoPrima .)
+    MINUS           reduce using rule 47 (termino -> terminoPrima .)
+    GREATER         reduce using rule 47 (termino -> terminoPrima .)
+    LESS            reduce using rule 47 (termino -> terminoPrima .)
+    ISNOT           reduce using rule 47 (termino -> terminoPrima .)
+    ENDL            reduce using rule 47 (termino -> terminoPrima .)
+    CLOSEP          reduce using rule 47 (termino -> terminoPrima .)
+    COMA            reduce using rule 47 (termino -> terminoPrima .)
 
 
 state 41
 
-    (47) terminoPrima -> factor . MULTIPLY termino
-    (48) terminoPrima -> factor . DIVIDE termino
-    (49) terminoPrima -> factor .
+    (48) terminoPrima -> factor . MULTIPLY termino
+    (49) terminoPrima -> factor . DIVIDE termino
+    (50) terminoPrima -> factor .
 
     MULTIPLY        shift and go to state 65
     DIVIDE          shift and go to state 66
-    PLUS            reduce using rule 49 (terminoPrima -> factor .)
-    MINUS           reduce using rule 49 (terminoPrima -> factor .)
-    GREATER         reduce using rule 49 (terminoPrima -> factor .)
-    LESS            reduce using rule 49 (terminoPrima -> factor .)
-    ISNOT           reduce using rule 49 (terminoPrima -> factor .)
-    ENDL            reduce using rule 49 (terminoPrima -> factor .)
-    CLOSEP          reduce using rule 49 (terminoPrima -> factor .)
-    COMA            reduce using rule 49 (terminoPrima -> factor .)
+    PLUS            reduce using rule 50 (terminoPrima -> factor .)
+    MINUS           reduce using rule 50 (terminoPrima -> factor .)
+    GREATER         reduce using rule 50 (terminoPrima -> factor .)
+    LESS            reduce using rule 50 (terminoPrima -> factor .)
+    ISNOT           reduce using rule 50 (terminoPrima -> factor .)
+    ENDL            reduce using rule 50 (terminoPrima -> factor .)
+    CLOSEP          reduce using rule 50 (terminoPrima -> factor .)
+    COMA            reduce using rule 50 (terminoPrima -> factor .)
 
 
 state 42
 
-    (34) factor -> OPENP . expresion CLOSEP
+    (35) factor -> OPENP . expresion CLOSEP
     (26) expresion -> . exp expresionPrima2
-    (42) exp -> . expPrima
-    (43) expPrima -> . termino PLUS exp
-    (44) expPrima -> . termino MINUS exp
-    (45) expPrima -> . termino
-    (46) termino -> . terminoPrima
-    (47) terminoPrima -> . factor MULTIPLY termino
-    (48) terminoPrima -> . factor DIVIDE termino
-    (49) terminoPrima -> . factor
-    (34) factor -> . OPENP expresion CLOSEP
-    (35) factor -> . factorPrima2
-    (36) factor -> . PLUS factorPrima2
-    (37) factor -> . MINUS factorPrima2
-    (38) factorPrima2 -> . ID
-    (39) factorPrima2 -> . cte
-    (40) cte -> . CTEINT
-    (41) cte -> . CTEFLOAT
+    (43) exp -> . expPrima
+    (44) expPrima -> . termino PLUS exp
+    (45) expPrima -> . termino MINUS exp
+    (46) expPrima -> . termino
+    (47) termino -> . terminoPrima
+    (48) terminoPrima -> . factor MULTIPLY termino
+    (49) terminoPrima -> . factor DIVIDE termino
+    (50) terminoPrima -> . factor
+    (35) factor -> . OPENP expresion CLOSEP
+    (36) factor -> . factorPrima2
+    (37) factor -> . PLUS factorPrima2
+    (38) factor -> . MINUS factorPrima2
+    (39) factorPrima2 -> . ID
+    (40) factorPrima2 -> . cte
+    (41) cte -> . CTEINT
+    (42) cte -> . CTEFLOAT
 
     OPENP           shift and go to state 42
     PLUS            shift and go to state 38
@@ -691,66 +694,66 @@ state 42
 
 state 43
 
-    (35) factor -> factorPrima2 .
+    (36) factor -> factorPrima2 .
 
-    MULTIPLY        reduce using rule 35 (factor -> factorPrima2 .)
-    DIVIDE          reduce using rule 35 (factor -> factorPrima2 .)
-    PLUS            reduce using rule 35 (factor -> factorPrima2 .)
-    MINUS           reduce using rule 35 (factor -> factorPrima2 .)
-    GREATER         reduce using rule 35 (factor -> factorPrima2 .)
-    LESS            reduce using rule 35 (factor -> factorPrima2 .)
-    ISNOT           reduce using rule 35 (factor -> factorPrima2 .)
-    ENDL            reduce using rule 35 (factor -> factorPrima2 .)
-    CLOSEP          reduce using rule 35 (factor -> factorPrima2 .)
-    COMA            reduce using rule 35 (factor -> factorPrima2 .)
+    MULTIPLY        reduce using rule 36 (factor -> factorPrima2 .)
+    DIVIDE          reduce using rule 36 (factor -> factorPrima2 .)
+    PLUS            reduce using rule 36 (factor -> factorPrima2 .)
+    MINUS           reduce using rule 36 (factor -> factorPrima2 .)
+    GREATER         reduce using rule 36 (factor -> factorPrima2 .)
+    LESS            reduce using rule 36 (factor -> factorPrima2 .)
+    ISNOT           reduce using rule 36 (factor -> factorPrima2 .)
+    ENDL            reduce using rule 36 (factor -> factorPrima2 .)
+    CLOSEP          reduce using rule 36 (factor -> factorPrima2 .)
+    COMA            reduce using rule 36 (factor -> factorPrima2 .)
 
 
 state 44
 
-    (39) factorPrima2 -> cte .
+    (40) factorPrima2 -> cte .
 
-    MULTIPLY        reduce using rule 39 (factorPrima2 -> cte .)
-    DIVIDE          reduce using rule 39 (factorPrima2 -> cte .)
-    PLUS            reduce using rule 39 (factorPrima2 -> cte .)
-    MINUS           reduce using rule 39 (factorPrima2 -> cte .)
-    GREATER         reduce using rule 39 (factorPrima2 -> cte .)
-    LESS            reduce using rule 39 (factorPrima2 -> cte .)
-    ISNOT           reduce using rule 39 (factorPrima2 -> cte .)
-    ENDL            reduce using rule 39 (factorPrima2 -> cte .)
-    CLOSEP          reduce using rule 39 (factorPrima2 -> cte .)
-    COMA            reduce using rule 39 (factorPrima2 -> cte .)
+    MULTIPLY        reduce using rule 40 (factorPrima2 -> cte .)
+    DIVIDE          reduce using rule 40 (factorPrima2 -> cte .)
+    PLUS            reduce using rule 40 (factorPrima2 -> cte .)
+    MINUS           reduce using rule 40 (factorPrima2 -> cte .)
+    GREATER         reduce using rule 40 (factorPrima2 -> cte .)
+    LESS            reduce using rule 40 (factorPrima2 -> cte .)
+    ISNOT           reduce using rule 40 (factorPrima2 -> cte .)
+    ENDL            reduce using rule 40 (factorPrima2 -> cte .)
+    CLOSEP          reduce using rule 40 (factorPrima2 -> cte .)
+    COMA            reduce using rule 40 (factorPrima2 -> cte .)
 
 
 state 45
 
-    (40) cte -> CTEINT .
+    (41) cte -> CTEINT .
 
-    MULTIPLY        reduce using rule 40 (cte -> CTEINT .)
-    DIVIDE          reduce using rule 40 (cte -> CTEINT .)
-    PLUS            reduce using rule 40 (cte -> CTEINT .)
-    MINUS           reduce using rule 40 (cte -> CTEINT .)
-    GREATER         reduce using rule 40 (cte -> CTEINT .)
-    LESS            reduce using rule 40 (cte -> CTEINT .)
-    ISNOT           reduce using rule 40 (cte -> CTEINT .)
-    ENDL            reduce using rule 40 (cte -> CTEINT .)
-    CLOSEP          reduce using rule 40 (cte -> CTEINT .)
-    COMA            reduce using rule 40 (cte -> CTEINT .)
+    MULTIPLY        reduce using rule 41 (cte -> CTEINT .)
+    DIVIDE          reduce using rule 41 (cte -> CTEINT .)
+    PLUS            reduce using rule 41 (cte -> CTEINT .)
+    MINUS           reduce using rule 41 (cte -> CTEINT .)
+    GREATER         reduce using rule 41 (cte -> CTEINT .)
+    LESS            reduce using rule 41 (cte -> CTEINT .)
+    ISNOT           reduce using rule 41 (cte -> CTEINT .)
+    ENDL            reduce using rule 41 (cte -> CTEINT .)
+    CLOSEP          reduce using rule 41 (cte -> CTEINT .)
+    COMA            reduce using rule 41 (cte -> CTEINT .)
 
 
 state 46
 
-    (41) cte -> CTEFLOAT .
+    (42) cte -> CTEFLOAT .
 
-    MULTIPLY        reduce using rule 41 (cte -> CTEFLOAT .)
-    DIVIDE          reduce using rule 41 (cte -> CTEFLOAT .)
-    PLUS            reduce using rule 41 (cte -> CTEFLOAT .)
-    MINUS           reduce using rule 41 (cte -> CTEFLOAT .)
-    GREATER         reduce using rule 41 (cte -> CTEFLOAT .)
-    LESS            reduce using rule 41 (cte -> CTEFLOAT .)
-    ISNOT           reduce using rule 41 (cte -> CTEFLOAT .)
-    ENDL            reduce using rule 41 (cte -> CTEFLOAT .)
-    CLOSEP          reduce using rule 41 (cte -> CTEFLOAT .)
-    COMA            reduce using rule 41 (cte -> CTEFLOAT .)
+    MULTIPLY        reduce using rule 42 (cte -> CTEFLOAT .)
+    DIVIDE          reduce using rule 42 (cte -> CTEFLOAT .)
+    PLUS            reduce using rule 42 (cte -> CTEFLOAT .)
+    MINUS           reduce using rule 42 (cte -> CTEFLOAT .)
+    GREATER         reduce using rule 42 (cte -> CTEFLOAT .)
+    LESS            reduce using rule 42 (cte -> CTEFLOAT .)
+    ISNOT           reduce using rule 42 (cte -> CTEFLOAT .)
+    ENDL            reduce using rule 42 (cte -> CTEFLOAT .)
+    CLOSEP          reduce using rule 42 (cte -> CTEFLOAT .)
+    COMA            reduce using rule 42 (cte -> CTEFLOAT .)
 
 
 state 47
@@ -855,22 +858,22 @@ state 57
 state 58
 
     (28) expresionPrima2 -> GREATER . exp
-    (42) exp -> . expPrima
-    (43) expPrima -> . termino PLUS exp
-    (44) expPrima -> . termino MINUS exp
-    (45) expPrima -> . termino
-    (46) termino -> . terminoPrima
-    (47) terminoPrima -> . factor MULTIPLY termino
-    (48) terminoPrima -> . factor DIVIDE termino
-    (49) terminoPrima -> . factor
-    (34) factor -> . OPENP expresion CLOSEP
-    (35) factor -> . factorPrima2
-    (36) factor -> . PLUS factorPrima2
-    (37) factor -> . MINUS factorPrima2
-    (38) factorPrima2 -> . ID
-    (39) factorPrima2 -> . cte
-    (40) cte -> . CTEINT
-    (41) cte -> . CTEFLOAT
+    (43) exp -> . expPrima
+    (44) expPrima -> . termino PLUS exp
+    (45) expPrima -> . termino MINUS exp
+    (46) expPrima -> . termino
+    (47) termino -> . terminoPrima
+    (48) terminoPrima -> . factor MULTIPLY termino
+    (49) terminoPrima -> . factor DIVIDE termino
+    (50) terminoPrima -> . factor
+    (35) factor -> . OPENP expresion CLOSEP
+    (36) factor -> . factorPrima2
+    (37) factor -> . PLUS factorPrima2
+    (38) factor -> . MINUS factorPrima2
+    (39) factorPrima2 -> . ID
+    (40) factorPrima2 -> . cte
+    (41) cte -> . CTEINT
+    (42) cte -> . CTEFLOAT
 
     OPENP           shift and go to state 42
     PLUS            shift and go to state 38
@@ -890,22 +893,22 @@ state 58
 state 59
 
     (29) expresionPrima2 -> LESS . exp
-    (42) exp -> . expPrima
-    (43) expPrima -> . termino PLUS exp
-    (44) expPrima -> . termino MINUS exp
-    (45) expPrima -> . termino
-    (46) termino -> . terminoPrima
-    (47) terminoPrima -> . factor MULTIPLY termino
-    (48) terminoPrima -> . factor DIVIDE termino
-    (49) terminoPrima -> . factor
-    (34) factor -> . OPENP expresion CLOSEP
-    (35) factor -> . factorPrima2
-    (36) factor -> . PLUS factorPrima2
-    (37) factor -> . MINUS factorPrima2
-    (38) factorPrima2 -> . ID
-    (39) factorPrima2 -> . cte
-    (40) cte -> . CTEINT
-    (41) cte -> . CTEFLOAT
+    (43) exp -> . expPrima
+    (44) expPrima -> . termino PLUS exp
+    (45) expPrima -> . termino MINUS exp
+    (46) expPrima -> . termino
+    (47) termino -> . terminoPrima
+    (48) terminoPrima -> . factor MULTIPLY termino
+    (49) terminoPrima -> . factor DIVIDE termino
+    (50) terminoPrima -> . factor
+    (35) factor -> . OPENP expresion CLOSEP
+    (36) factor -> . factorPrima2
+    (37) factor -> . PLUS factorPrima2
+    (38) factor -> . MINUS factorPrima2
+    (39) factorPrima2 -> . ID
+    (40) factorPrima2 -> . cte
+    (41) cte -> . CTEINT
+    (42) cte -> . CTEFLOAT
 
     OPENP           shift and go to state 42
     PLUS            shift and go to state 38
@@ -925,22 +928,22 @@ state 59
 state 60
 
     (30) expresionPrima2 -> ISNOT . exp
-    (42) exp -> . expPrima
-    (43) expPrima -> . termino PLUS exp
-    (44) expPrima -> . termino MINUS exp
-    (45) expPrima -> . termino
-    (46) termino -> . terminoPrima
-    (47) terminoPrima -> . factor MULTIPLY termino
-    (48) terminoPrima -> . factor DIVIDE termino
-    (49) terminoPrima -> . factor
-    (34) factor -> . OPENP expresion CLOSEP
-    (35) factor -> . factorPrima2
-    (36) factor -> . PLUS factorPrima2
-    (37) factor -> . MINUS factorPrima2
-    (38) factorPrima2 -> . ID
-    (39) factorPrima2 -> . cte
-    (40) cte -> . CTEINT
-    (41) cte -> . CTEFLOAT
+    (43) exp -> . expPrima
+    (44) expPrima -> . termino PLUS exp
+    (45) expPrima -> . termino MINUS exp
+    (46) expPrima -> . termino
+    (47) termino -> . terminoPrima
+    (48) terminoPrima -> . factor MULTIPLY termino
+    (49) terminoPrima -> . factor DIVIDE termino
+    (50) terminoPrima -> . factor
+    (35) factor -> . OPENP expresion CLOSEP
+    (36) factor -> . factorPrima2
+    (37) factor -> . PLUS factorPrima2
+    (38) factor -> . MINUS factorPrima2
+    (39) factorPrima2 -> . ID
+    (40) factorPrima2 -> . cte
+    (41) cte -> . CTEINT
+    (42) cte -> . CTEFLOAT
 
     OPENP           shift and go to state 42
     PLUS            shift and go to state 38
@@ -959,23 +962,23 @@ state 60
 
 state 61
 
-    (43) expPrima -> termino PLUS . exp
-    (42) exp -> . expPrima
-    (43) expPrima -> . termino PLUS exp
-    (44) expPrima -> . termino MINUS exp
-    (45) expPrima -> . termino
-    (46) termino -> . terminoPrima
-    (47) terminoPrima -> . factor MULTIPLY termino
-    (48) terminoPrima -> . factor DIVIDE termino
-    (49) terminoPrima -> . factor
-    (34) factor -> . OPENP expresion CLOSEP
-    (35) factor -> . factorPrima2
-    (36) factor -> . PLUS factorPrima2
-    (37) factor -> . MINUS factorPrima2
-    (38) factorPrima2 -> . ID
-    (39) factorPrima2 -> . cte
-    (40) cte -> . CTEINT
-    (41) cte -> . CTEFLOAT
+    (44) expPrima -> termino PLUS . exp
+    (43) exp -> . expPrima
+    (44) expPrima -> . termino PLUS exp
+    (45) expPrima -> . termino MINUS exp
+    (46) expPrima -> . termino
+    (47) termino -> . terminoPrima
+    (48) terminoPrima -> . factor MULTIPLY termino
+    (49) terminoPrima -> . factor DIVIDE termino
+    (50) terminoPrima -> . factor
+    (35) factor -> . OPENP expresion CLOSEP
+    (36) factor -> . factorPrima2
+    (37) factor -> . PLUS factorPrima2
+    (38) factor -> . MINUS factorPrima2
+    (39) factorPrima2 -> . ID
+    (40) factorPrima2 -> . cte
+    (41) cte -> . CTEINT
+    (42) cte -> . CTEFLOAT
 
     OPENP           shift and go to state 42
     PLUS            shift and go to state 38
@@ -994,23 +997,23 @@ state 61
 
 state 62
 
-    (44) expPrima -> termino MINUS . exp
-    (42) exp -> . expPrima
-    (43) expPrima -> . termino PLUS exp
-    (44) expPrima -> . termino MINUS exp
-    (45) expPrima -> . termino
-    (46) termino -> . terminoPrima
-    (47) terminoPrima -> . factor MULTIPLY termino
-    (48) terminoPrima -> . factor DIVIDE termino
-    (49) terminoPrima -> . factor
-    (34) factor -> . OPENP expresion CLOSEP
-    (35) factor -> . factorPrima2
-    (36) factor -> . PLUS factorPrima2
-    (37) factor -> . MINUS factorPrima2
-    (38) factorPrima2 -> . ID
-    (39) factorPrima2 -> . cte
-    (40) cte -> . CTEINT
-    (41) cte -> . CTEFLOAT
+    (45) expPrima -> termino MINUS . exp
+    (43) exp -> . expPrima
+    (44) expPrima -> . termino PLUS exp
+    (45) expPrima -> . termino MINUS exp
+    (46) expPrima -> . termino
+    (47) termino -> . terminoPrima
+    (48) terminoPrima -> . factor MULTIPLY termino
+    (49) terminoPrima -> . factor DIVIDE termino
+    (50) terminoPrima -> . factor
+    (35) factor -> . OPENP expresion CLOSEP
+    (36) factor -> . factorPrima2
+    (37) factor -> . PLUS factorPrima2
+    (38) factor -> . MINUS factorPrima2
+    (39) factorPrima2 -> . ID
+    (40) factorPrima2 -> . cte
+    (41) cte -> . CTEINT
+    (42) cte -> . CTEFLOAT
 
     OPENP           shift and go to state 42
     PLUS            shift and go to state 38
@@ -1029,51 +1032,51 @@ state 62
 
 state 63
 
-    (36) factor -> PLUS factorPrima2 .
+    (37) factor -> PLUS factorPrima2 .
 
-    MULTIPLY        reduce using rule 36 (factor -> PLUS factorPrima2 .)
-    DIVIDE          reduce using rule 36 (factor -> PLUS factorPrima2 .)
-    PLUS            reduce using rule 36 (factor -> PLUS factorPrima2 .)
-    MINUS           reduce using rule 36 (factor -> PLUS factorPrima2 .)
-    GREATER         reduce using rule 36 (factor -> PLUS factorPrima2 .)
-    LESS            reduce using rule 36 (factor -> PLUS factorPrima2 .)
-    ISNOT           reduce using rule 36 (factor -> PLUS factorPrima2 .)
-    ENDL            reduce using rule 36 (factor -> PLUS factorPrima2 .)
-    CLOSEP          reduce using rule 36 (factor -> PLUS factorPrima2 .)
-    COMA            reduce using rule 36 (factor -> PLUS factorPrima2 .)
+    MULTIPLY        reduce using rule 37 (factor -> PLUS factorPrima2 .)
+    DIVIDE          reduce using rule 37 (factor -> PLUS factorPrima2 .)
+    PLUS            reduce using rule 37 (factor -> PLUS factorPrima2 .)
+    MINUS           reduce using rule 37 (factor -> PLUS factorPrima2 .)
+    GREATER         reduce using rule 37 (factor -> PLUS factorPrima2 .)
+    LESS            reduce using rule 37 (factor -> PLUS factorPrima2 .)
+    ISNOT           reduce using rule 37 (factor -> PLUS factorPrima2 .)
+    ENDL            reduce using rule 37 (factor -> PLUS factorPrima2 .)
+    CLOSEP          reduce using rule 37 (factor -> PLUS factorPrima2 .)
+    COMA            reduce using rule 37 (factor -> PLUS factorPrima2 .)
 
 
 state 64
 
-    (37) factor -> MINUS factorPrima2 .
+    (38) factor -> MINUS factorPrima2 .
 
-    MULTIPLY        reduce using rule 37 (factor -> MINUS factorPrima2 .)
-    DIVIDE          reduce using rule 37 (factor -> MINUS factorPrima2 .)
-    PLUS            reduce using rule 37 (factor -> MINUS factorPrima2 .)
-    MINUS           reduce using rule 37 (factor -> MINUS factorPrima2 .)
-    GREATER         reduce using rule 37 (factor -> MINUS factorPrima2 .)
-    LESS            reduce using rule 37 (factor -> MINUS factorPrima2 .)
-    ISNOT           reduce using rule 37 (factor -> MINUS factorPrima2 .)
-    ENDL            reduce using rule 37 (factor -> MINUS factorPrima2 .)
-    CLOSEP          reduce using rule 37 (factor -> MINUS factorPrima2 .)
-    COMA            reduce using rule 37 (factor -> MINUS factorPrima2 .)
+    MULTIPLY        reduce using rule 38 (factor -> MINUS factorPrima2 .)
+    DIVIDE          reduce using rule 38 (factor -> MINUS factorPrima2 .)
+    PLUS            reduce using rule 38 (factor -> MINUS factorPrima2 .)
+    MINUS           reduce using rule 38 (factor -> MINUS factorPrima2 .)
+    GREATER         reduce using rule 38 (factor -> MINUS factorPrima2 .)
+    LESS            reduce using rule 38 (factor -> MINUS factorPrima2 .)
+    ISNOT           reduce using rule 38 (factor -> MINUS factorPrima2 .)
+    ENDL            reduce using rule 38 (factor -> MINUS factorPrima2 .)
+    CLOSEP          reduce using rule 38 (factor -> MINUS factorPrima2 .)
+    COMA            reduce using rule 38 (factor -> MINUS factorPrima2 .)
 
 
 state 65
 
-    (47) terminoPrima -> factor MULTIPLY . termino
-    (46) termino -> . terminoPrima
-    (47) terminoPrima -> . factor MULTIPLY termino
-    (48) terminoPrima -> . factor DIVIDE termino
-    (49) terminoPrima -> . factor
-    (34) factor -> . OPENP expresion CLOSEP
-    (35) factor -> . factorPrima2
-    (36) factor -> . PLUS factorPrima2
-    (37) factor -> . MINUS factorPrima2
-    (38) factorPrima2 -> . ID
-    (39) factorPrima2 -> . cte
-    (40) cte -> . CTEINT
-    (41) cte -> . CTEFLOAT
+    (48) terminoPrima -> factor MULTIPLY . termino
+    (47) termino -> . terminoPrima
+    (48) terminoPrima -> . factor MULTIPLY termino
+    (49) terminoPrima -> . factor DIVIDE termino
+    (50) terminoPrima -> . factor
+    (35) factor -> . OPENP expresion CLOSEP
+    (36) factor -> . factorPrima2
+    (37) factor -> . PLUS factorPrima2
+    (38) factor -> . MINUS factorPrima2
+    (39) factorPrima2 -> . ID
+    (40) factorPrima2 -> . cte
+    (41) cte -> . CTEINT
+    (42) cte -> . CTEFLOAT
 
     OPENP           shift and go to state 42
     PLUS            shift and go to state 38
@@ -1090,19 +1093,19 @@ state 65
 
 state 66
 
-    (48) terminoPrima -> factor DIVIDE . termino
-    (46) termino -> . terminoPrima
-    (47) terminoPrima -> . factor MULTIPLY termino
-    (48) terminoPrima -> . factor DIVIDE termino
-    (49) terminoPrima -> . factor
-    (34) factor -> . OPENP expresion CLOSEP
-    (35) factor -> . factorPrima2
-    (36) factor -> . PLUS factorPrima2
-    (37) factor -> . MINUS factorPrima2
-    (38) factorPrima2 -> . ID
-    (39) factorPrima2 -> . cte
-    (40) cte -> . CTEINT
-    (41) cte -> . CTEFLOAT
+    (49) terminoPrima -> factor DIVIDE . termino
+    (47) termino -> . terminoPrima
+    (48) terminoPrima -> . factor MULTIPLY termino
+    (49) terminoPrima -> . factor DIVIDE termino
+    (50) terminoPrima -> . factor
+    (35) factor -> . OPENP expresion CLOSEP
+    (36) factor -> . factorPrima2
+    (37) factor -> . PLUS factorPrima2
+    (38) factor -> . MINUS factorPrima2
+    (39) factorPrima2 -> . ID
+    (40) factorPrima2 -> . cte
+    (41) cte -> . CTEINT
+    (42) cte -> . CTEFLOAT
 
     OPENP           shift and go to state 42
     PLUS            shift and go to state 38
@@ -1119,7 +1122,7 @@ state 66
 
 state 67
 
-    (34) factor -> OPENP expresion . CLOSEP
+    (35) factor -> OPENP expresion . CLOSEP
 
     CLOSEP          shift and go to state 84
 
@@ -1137,22 +1140,22 @@ state 69
 
     (25) cycle -> DO body WHILE OPENP . expresion CLOSEP ENDL
     (26) expresion -> . exp expresionPrima2
-    (42) exp -> . expPrima
-    (43) expPrima -> . termino PLUS exp
-    (44) expPrima -> . termino MINUS exp
-    (45) expPrima -> . termino
-    (46) termino -> . terminoPrima
-    (47) terminoPrima -> . factor MULTIPLY termino
-    (48) terminoPrima -> . factor DIVIDE termino
-    (49) terminoPrima -> . factor
-    (34) factor -> . OPENP expresion CLOSEP
-    (35) factor -> . factorPrima2
-    (36) factor -> . PLUS factorPrima2
-    (37) factor -> . MINUS factorPrima2
-    (38) factorPrima2 -> . ID
-    (39) factorPrima2 -> . cte
-    (40) cte -> . CTEINT
-    (41) cte -> . CTEFLOAT
+    (43) exp -> . expPrima
+    (44) expPrima -> . termino PLUS exp
+    (45) expPrima -> . termino MINUS exp
+    (46) expPrima -> . termino
+    (47) termino -> . terminoPrima
+    (48) terminoPrima -> . factor MULTIPLY termino
+    (49) terminoPrima -> . factor DIVIDE termino
+    (50) terminoPrima -> . factor
+    (35) factor -> . OPENP expresion CLOSEP
+    (36) factor -> . factorPrima2
+    (37) factor -> . PLUS factorPrima2
+    (38) factor -> . MINUS factorPrima2
+    (39) factorPrima2 -> . ID
+    (40) factorPrima2 -> . cte
+    (41) cte -> . CTEINT
+    (42) cte -> . CTEFLOAT
 
     OPENP           shift and go to state 42
     PLUS            shift and go to state 38
@@ -1187,22 +1190,22 @@ state 71
     (20) printPrima -> . expresion expresionPrima
     (21) printPrima -> . CTESTRING expresionPrima
     (26) expresion -> . exp expresionPrima2
-    (42) exp -> . expPrima
-    (43) expPrima -> . termino PLUS exp
-    (44) expPrima -> . termino MINUS exp
-    (45) expPrima -> . termino
-    (46) termino -> . terminoPrima
-    (47) terminoPrima -> . factor MULTIPLY termino
-    (48) terminoPrima -> . factor DIVIDE termino
-    (49) terminoPrima -> . factor
-    (34) factor -> . OPENP expresion CLOSEP
-    (35) factor -> . factorPrima2
-    (36) factor -> . PLUS factorPrima2
-    (37) factor -> . MINUS factorPrima2
-    (38) factorPrima2 -> . ID
-    (39) factorPrima2 -> . cte
-    (40) cte -> . CTEINT
-    (41) cte -> . CTEFLOAT
+    (43) exp -> . expPrima
+    (44) expPrima -> . termino PLUS exp
+    (45) expPrima -> . termino MINUS exp
+    (46) expPrima -> . termino
+    (47) termino -> . terminoPrima
+    (48) terminoPrima -> . factor MULTIPLY termino
+    (49) terminoPrima -> . factor DIVIDE termino
+    (50) terminoPrima -> . factor
+    (35) factor -> . OPENP expresion CLOSEP
+    (36) factor -> . factorPrima2
+    (37) factor -> . PLUS factorPrima2
+    (38) factor -> . MINUS factorPrima2
+    (39) factorPrima2 -> . ID
+    (40) factorPrima2 -> . cte
+    (41) cte -> . CTEINT
+    (42) cte -> . CTEFLOAT
 
     CTESTRING       shift and go to state 51
     OPENP           shift and go to state 42
@@ -1302,79 +1305,81 @@ state 79
 
 state 80
 
-    (43) expPrima -> termino PLUS exp .
+    (44) expPrima -> termino PLUS exp .
 
-    GREATER         reduce using rule 43 (expPrima -> termino PLUS exp .)
-    LESS            reduce using rule 43 (expPrima -> termino PLUS exp .)
-    ISNOT           reduce using rule 43 (expPrima -> termino PLUS exp .)
-    ENDL            reduce using rule 43 (expPrima -> termino PLUS exp .)
-    CLOSEP          reduce using rule 43 (expPrima -> termino PLUS exp .)
-    COMA            reduce using rule 43 (expPrima -> termino PLUS exp .)
+    GREATER         reduce using rule 44 (expPrima -> termino PLUS exp .)
+    LESS            reduce using rule 44 (expPrima -> termino PLUS exp .)
+    ISNOT           reduce using rule 44 (expPrima -> termino PLUS exp .)
+    ENDL            reduce using rule 44 (expPrima -> termino PLUS exp .)
+    CLOSEP          reduce using rule 44 (expPrima -> termino PLUS exp .)
+    COMA            reduce using rule 44 (expPrima -> termino PLUS exp .)
 
 
 state 81
 
-    (44) expPrima -> termino MINUS exp .
+    (45) expPrima -> termino MINUS exp .
 
-    GREATER         reduce using rule 44 (expPrima -> termino MINUS exp .)
-    LESS            reduce using rule 44 (expPrima -> termino MINUS exp .)
-    ISNOT           reduce using rule 44 (expPrima -> termino MINUS exp .)
-    ENDL            reduce using rule 44 (expPrima -> termino MINUS exp .)
-    CLOSEP          reduce using rule 44 (expPrima -> termino MINUS exp .)
-    COMA            reduce using rule 44 (expPrima -> termino MINUS exp .)
+    GREATER         reduce using rule 45 (expPrima -> termino MINUS exp .)
+    LESS            reduce using rule 45 (expPrima -> termino MINUS exp .)
+    ISNOT           reduce using rule 45 (expPrima -> termino MINUS exp .)
+    ENDL            reduce using rule 45 (expPrima -> termino MINUS exp .)
+    CLOSEP          reduce using rule 45 (expPrima -> termino MINUS exp .)
+    COMA            reduce using rule 45 (expPrima -> termino MINUS exp .)
 
 
 state 82
 
-    (47) terminoPrima -> factor MULTIPLY termino .
+    (48) terminoPrima -> factor MULTIPLY termino .
 
-    PLUS            reduce using rule 47 (terminoPrima -> factor MULTIPLY termino .)
-    MINUS           reduce using rule 47 (terminoPrima -> factor MULTIPLY termino .)
-    GREATER         reduce using rule 47 (terminoPrima -> factor MULTIPLY termino .)
-    LESS            reduce using rule 47 (terminoPrima -> factor MULTIPLY termino .)
-    ISNOT           reduce using rule 47 (terminoPrima -> factor MULTIPLY termino .)
-    ENDL            reduce using rule 47 (terminoPrima -> factor MULTIPLY termino .)
-    CLOSEP          reduce using rule 47 (terminoPrima -> factor MULTIPLY termino .)
-    COMA            reduce using rule 47 (terminoPrima -> factor MULTIPLY termino .)
+    PLUS            reduce using rule 48 (terminoPrima -> factor MULTIPLY termino .)
+    MINUS           reduce using rule 48 (terminoPrima -> factor MULTIPLY termino .)
+    GREATER         reduce using rule 48 (terminoPrima -> factor MULTIPLY termino .)
+    LESS            reduce using rule 48 (terminoPrima -> factor MULTIPLY termino .)
+    ISNOT           reduce using rule 48 (terminoPrima -> factor MULTIPLY termino .)
+    ENDL            reduce using rule 48 (terminoPrima -> factor MULTIPLY termino .)
+    CLOSEP          reduce using rule 48 (terminoPrima -> factor MULTIPLY termino .)
+    COMA            reduce using rule 48 (terminoPrima -> factor MULTIPLY termino .)
 
 
 state 83
 
-    (48) terminoPrima -> factor DIVIDE termino .
+    (49) terminoPrima -> factor DIVIDE termino .
 
-    PLUS            reduce using rule 48 (terminoPrima -> factor DIVIDE termino .)
-    MINUS           reduce using rule 48 (terminoPrima -> factor DIVIDE termino .)
-    GREATER         reduce using rule 48 (terminoPrima -> factor DIVIDE termino .)
-    LESS            reduce using rule 48 (terminoPrima -> factor DIVIDE termino .)
-    ISNOT           reduce using rule 48 (terminoPrima -> factor DIVIDE termino .)
-    ENDL            reduce using rule 48 (terminoPrima -> factor DIVIDE termino .)
-    CLOSEP          reduce using rule 48 (terminoPrima -> factor DIVIDE termino .)
-    COMA            reduce using rule 48 (terminoPrima -> factor DIVIDE termino .)
+    PLUS            reduce using rule 49 (terminoPrima -> factor DIVIDE termino .)
+    MINUS           reduce using rule 49 (terminoPrima -> factor DIVIDE termino .)
+    GREATER         reduce using rule 49 (terminoPrima -> factor DIVIDE termino .)
+    LESS            reduce using rule 49 (terminoPrima -> factor DIVIDE termino .)
+    ISNOT           reduce using rule 49 (terminoPrima -> factor DIVIDE termino .)
+    ENDL            reduce using rule 49 (terminoPrima -> factor DIVIDE termino .)
+    CLOSEP          reduce using rule 49 (terminoPrima -> factor DIVIDE termino .)
+    COMA            reduce using rule 49 (terminoPrima -> factor DIVIDE termino .)
 
 
 state 84
 
-    (34) factor -> OPENP expresion CLOSEP .
+    (35) factor -> OPENP expresion CLOSEP .
 
-    MULTIPLY        reduce using rule 34 (factor -> OPENP expresion CLOSEP .)
-    DIVIDE          reduce using rule 34 (factor -> OPENP expresion CLOSEP .)
-    PLUS            reduce using rule 34 (factor -> OPENP expresion CLOSEP .)
-    MINUS           reduce using rule 34 (factor -> OPENP expresion CLOSEP .)
-    GREATER         reduce using rule 34 (factor -> OPENP expresion CLOSEP .)
-    LESS            reduce using rule 34 (factor -> OPENP expresion CLOSEP .)
-    ISNOT           reduce using rule 34 (factor -> OPENP expresion CLOSEP .)
-    ENDL            reduce using rule 34 (factor -> OPENP expresion CLOSEP .)
-    CLOSEP          reduce using rule 34 (factor -> OPENP expresion CLOSEP .)
-    COMA            reduce using rule 34 (factor -> OPENP expresion CLOSEP .)
+    MULTIPLY        reduce using rule 35 (factor -> OPENP expresion CLOSEP .)
+    DIVIDE          reduce using rule 35 (factor -> OPENP expresion CLOSEP .)
+    PLUS            reduce using rule 35 (factor -> OPENP expresion CLOSEP .)
+    MINUS           reduce using rule 35 (factor -> OPENP expresion CLOSEP .)
+    GREATER         reduce using rule 35 (factor -> OPENP expresion CLOSEP .)
+    LESS            reduce using rule 35 (factor -> OPENP expresion CLOSEP .)
+    ISNOT           reduce using rule 35 (factor -> OPENP expresion CLOSEP .)
+    ENDL            reduce using rule 35 (factor -> OPENP expresion CLOSEP .)
+    CLOSEP          reduce using rule 35 (factor -> OPENP expresion CLOSEP .)
+    COMA            reduce using rule 35 (factor -> OPENP expresion CLOSEP .)
 
 
 state 85
 
     (31) condition -> IF OPENP expresion CLOSEP body . conditionPrima
     (32) conditionPrima -> . ELSE body ENDL
-    (33) conditionPrima -> . ENDL
+    (33) conditionPrima -> . ELIF OPENP expresion CLOSEP body conditionPrima
+    (34) conditionPrima -> . ENDL
 
     ELSE            shift and go to state 94
+    ELIF            shift and go to state 96
     ENDL            shift and go to state 95
 
     conditionPrima                 shift and go to state 93
@@ -1383,7 +1388,7 @@ state 86
 
     (25) cycle -> DO body WHILE OPENP expresion . CLOSEP ENDL
 
-    CLOSEP          shift and go to state 96
+    CLOSEP          shift and go to state 97
 
 
 state 87
@@ -1431,7 +1436,7 @@ state 91
     COMA            shift and go to state 31
     COLON           shift and go to state 32
 
-    idPrima                        shift and go to state 97
+    idPrima                        shift and go to state 98
 
 state 92
 
@@ -1458,41 +1463,85 @@ state 94
 
     OPENK           shift and go to state 8
 
-    body                           shift and go to state 98
+    body                           shift and go to state 99
 
 state 95
 
-    (33) conditionPrima -> ENDL .
+    (34) conditionPrima -> ENDL .
 
-    ID              reduce using rule 33 (conditionPrima -> ENDL .)
-    IF              reduce using rule 33 (conditionPrima -> ENDL .)
-    DO              reduce using rule 33 (conditionPrima -> ENDL .)
-    COUT            reduce using rule 33 (conditionPrima -> ENDL .)
-    CLOSEK          reduce using rule 33 (conditionPrima -> ENDL .)
+    ID              reduce using rule 34 (conditionPrima -> ENDL .)
+    IF              reduce using rule 34 (conditionPrima -> ENDL .)
+    DO              reduce using rule 34 (conditionPrima -> ENDL .)
+    COUT            reduce using rule 34 (conditionPrima -> ENDL .)
+    CLOSEK          reduce using rule 34 (conditionPrima -> ENDL .)
 
 
 state 96
 
-    (25) cycle -> DO body WHILE OPENP expresion CLOSEP . ENDL
+    (33) conditionPrima -> ELIF . OPENP expresion CLOSEP body conditionPrima
 
-    ENDL            shift and go to state 99
+    OPENP           shift and go to state 100
 
 
 state 97
+
+    (25) cycle -> DO body WHILE OPENP expresion CLOSEP . ENDL
+
+    ENDL            shift and go to state 101
+
+
+state 98
 
     (7) idPrima2 -> ID idPrima .
 
     OPENK           reduce using rule 7 (idPrima2 -> ID idPrima .)
 
 
-state 98
+state 99
 
     (32) conditionPrima -> ELSE body . ENDL
 
-    ENDL            shift and go to state 100
+    ENDL            shift and go to state 102
 
 
-state 99
+state 100
+
+    (33) conditionPrima -> ELIF OPENP . expresion CLOSEP body conditionPrima
+    (26) expresion -> . exp expresionPrima2
+    (43) exp -> . expPrima
+    (44) expPrima -> . termino PLUS exp
+    (45) expPrima -> . termino MINUS exp
+    (46) expPrima -> . termino
+    (47) termino -> . terminoPrima
+    (48) terminoPrima -> . factor MULTIPLY termino
+    (49) terminoPrima -> . factor DIVIDE termino
+    (50) terminoPrima -> . factor
+    (35) factor -> . OPENP expresion CLOSEP
+    (36) factor -> . factorPrima2
+    (37) factor -> . PLUS factorPrima2
+    (38) factor -> . MINUS factorPrima2
+    (39) factorPrima2 -> . ID
+    (40) factorPrima2 -> . cte
+    (41) cte -> . CTEINT
+    (42) cte -> . CTEFLOAT
+
+    OPENP           shift and go to state 42
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    ID              shift and go to state 33
+    CTEINT          shift and go to state 45
+    CTEFLOAT        shift and go to state 46
+
+    expresion                      shift and go to state 103
+    exp                            shift and go to state 35
+    expPrima                       shift and go to state 36
+    termino                        shift and go to state 37
+    terminoPrima                   shift and go to state 40
+    factor                         shift and go to state 41
+    factorPrima2                   shift and go to state 43
+    cte                            shift and go to state 44
+
+state 101
 
     (25) cycle -> DO body WHILE OPENP expresion CLOSEP ENDL .
 
@@ -1503,7 +1552,7 @@ state 99
     CLOSEK          reduce using rule 25 (cycle -> DO body WHILE OPENP expresion CLOSEP ENDL .)
 
 
-state 100
+state 102
 
     (32) conditionPrima -> ELSE body ENDL .
 
@@ -1512,4 +1561,44 @@ state 100
     DO              reduce using rule 32 (conditionPrima -> ELSE body ENDL .)
     COUT            reduce using rule 32 (conditionPrima -> ELSE body ENDL .)
     CLOSEK          reduce using rule 32 (conditionPrima -> ELSE body ENDL .)
+
+
+state 103
+
+    (33) conditionPrima -> ELIF OPENP expresion . CLOSEP body conditionPrima
+
+    CLOSEP          shift and go to state 104
+
+
+state 104
+
+    (33) conditionPrima -> ELIF OPENP expresion CLOSEP . body conditionPrima
+    (12) body -> . OPENK bodyPrima CLOSEK
+
+    OPENK           shift and go to state 8
+
+    body                           shift and go to state 105
+
+state 105
+
+    (33) conditionPrima -> ELIF OPENP expresion CLOSEP body . conditionPrima
+    (32) conditionPrima -> . ELSE body ENDL
+    (33) conditionPrima -> . ELIF OPENP expresion CLOSEP body conditionPrima
+    (34) conditionPrima -> . ENDL
+
+    ELSE            shift and go to state 94
+    ELIF            shift and go to state 96
+    ENDL            shift and go to state 95
+
+    conditionPrima                 shift and go to state 106
+
+state 106
+
+    (33) conditionPrima -> ELIF OPENP expresion CLOSEP body conditionPrima .
+
+    ID              reduce using rule 33 (conditionPrima -> ELIF OPENP expresion CLOSEP body conditionPrima .)
+    IF              reduce using rule 33 (conditionPrima -> ELIF OPENP expresion CLOSEP body conditionPrima .)
+    DO              reduce using rule 33 (conditionPrima -> ELIF OPENP expresion CLOSEP body conditionPrima .)
+    COUT            reduce using rule 33 (conditionPrima -> ELIF OPENP expresion CLOSEP body conditionPrima .)
+    CLOSEK          reduce using rule 33 (conditionPrima -> ELIF OPENP expresion CLOSEP body conditionPrima .)
 
