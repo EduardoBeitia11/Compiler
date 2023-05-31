@@ -96,7 +96,7 @@ def t_ID(t):
             addJumpToQuadruple()
             jumpStack.append(['GOTO', len(quadrupleTable), ''])
         elif tok == 'DO':
-            gotoJumpStack.append(len(quadrupleTable) + 1)
+            createJump.append("DO")
         elif tok == 'WHILE':
             createJump.append(['GOTOT', '', ''])
         t.type = t.value.upper()
@@ -104,7 +104,10 @@ def t_ID(t):
 
 def t_OPENK(t):
     r'\{'
-    if len(createJump) and len(elementStack):
+    if len(createJump) and createJump[0] == "DO":
+        createJump.pop()
+        gotoJumpStack.append(len(quadrupleTable)+1)
+    elif len(createJump) and len(elementStack):
         nextJump = createJump.pop()
         quadrupleTable.append([nextJump[0], elementStack.pop(), ''])
         nextJump[1] = len(quadrupleTable)
@@ -127,24 +130,6 @@ precedence = (
     ('left', 'MULTIPLY', 'DIVIDE'),
 )
 
-#------------------- VARIABLES -----------------------
-
-
-# #To create variable table 
-# idTypeValue=""
-# variableTable={}
-
-# #To create quadruple table
-# elementStack=[]
-# operatorStack=[]
-# operationCounter=0
-# gotoJumpStack=[]
-# quadrupleTable=[]
-# newTempVar=""
-# createJump=[]
-# jumpStack=[]
-
-
 #-------------------- quadruple table -----------------------
 def addToQuadrupleTable():
     global operationCounter, quadrupleTable, newTempVar
@@ -152,6 +137,18 @@ def addToQuadrupleTable():
     operand = operatorStack.pop()
     if operand == '(':
         return
+    elif operand == 'cout':
+        operationCounter += 1 
+
+        value = elementStack.pop()
+
+        newTempVar = "T" + str(operationCounter)
+        tempQuadruple=[operand,value,newTempVar]
+
+        elementStack.append(newTempVar)
+        quadrupleTable.append(tempQuadruple)
+        return
+
     operationCounter += 1 
 
     #operand = operatorStack.pop()
@@ -164,7 +161,7 @@ def addToQuadrupleTable():
     elementStack.append(newTempVar)
     quadrupleTable.append(tempQuadruple)
 
-#------------------- PREPATRING NEXT JUMP -------------
+#------------------- PREPARING NEXT JUMP -------------
 def addJumpToQuadruple():
     nextJump = jumpStack.pop()
     if len(gotoJumpStack) and nextJump[0] == 'GOTOT':
@@ -180,7 +177,7 @@ def addToVarTable(p):
     
     if p in variableTable.keys():
         print("\n-------------ERROR---------------")
-        print(p,"- ya existe o es una palabra reservada")
+        print(p,"- is already created")
         print("-------------ERROR---------------\n")
         exit()
     else:
@@ -191,9 +188,178 @@ def getSementicTable():
     dict = {int:["+","-","/","*","<",">","!="],float:[["+","-","/","*"]]}
     print(dict)
 
+#-------------------- create memory -----------------------
+def createMemory():
+    inicialDirection=1000
+    for key in variableTable.keys():
+        variableDirection[key] = inicialDirection
+        memory[inicialDirection] = 0
+        inicialDirection += 1
+    
 
+#-------------------- VM process function -----------------
+def processProgram(quadTable):
+    steps = 0
+    for quadArray in quadTable:
+        if quadArray[0] == '=':
+            if quadArray[1] in variableDirection.keys():
+                value = memory[variableDirection[quadArray[1]]]
+            else:
+                value = quadArray[1]
+            memory[variableDirection[quadArray[2]]] = value
+        elif quadArray[0] == '+':
+            firstValue = 0
+            secondValue = 0
+            if quadArray[1] in variableDirection.keys():
+                firstValue = memory[variableDirection[quadArray[1]]]
+            else:
+                firstValue = quadArray[1]
 
-#------------------- PARSER --------------------------
+            if quadArray[2] in variableDirection.keys():
+                secondValue = memory[variableDirection[quadArray[2]]]
+            else:
+                secondValue = quadArray[2]
+            
+            #print("values: ",firstValue, secondValue)
+            result = int(firstValue) + int(secondValue)
+
+            variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
+            memory[variableDirection[quadArray[3]]] = result
+        elif quadArray[0] == '-':
+            firstValue = 0
+            secondValue = 0
+            if quadArray[1] in variableDirection.keys():
+                firstValue = memory[variableDirection[quadArray[1]]]
+            else:
+                firstValue = quadArray[1]
+
+            if quadArray[2] in variableDirection.keys():
+                secondValue = memory[variableDirection[quadArray[2]]]
+            else:
+                secondValue = quadArray[2]
+            
+            #print("values: ",firstValue, secondValue)
+            result = int(firstValue) - int(secondValue)
+
+            variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
+            memory[variableDirection[quadArray[3]]] = result
+        elif quadArray[0] == '/':
+            firstValue = 0
+            secondValue = 0
+            if quadArray[1] in variableDirection.keys():
+                firstValue = memory[variableDirection[quadArray[1]]]
+            else:
+                firstValue = quadArray[1]
+
+            if quadArray[2] in variableDirection.keys():
+                secondValue = memory[variableDirection[quadArray[2]]]
+            else:
+                secondValue = quadArray[2]
+            
+            #print("values: ",firstValue, secondValue)
+            result = int(firstValue) / int(secondValue)
+
+            variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
+            memory[variableDirection[quadArray[3]]] = result
+        elif quadArray[0] == '*':
+            firstValue = 0
+            secondValue = 0
+            if quadArray[1] in variableDirection.keys():
+                firstValue = memory[variableDirection[quadArray[1]]]
+            else:
+                firstValue = quadArray[1]
+
+            if quadArray[2] in variableDirection.keys():
+                secondValue = memory[variableDirection[quadArray[2]]]
+            else:
+                secondValue = quadArray[2]
+            
+            #print("values: ",firstValue, secondValue)
+            result = int(firstValue) * int(secondValue)
+
+            variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
+            memory[variableDirection[quadArray[3]]] = result
+        elif quadArray[0] == '>':
+            firstValue = 0
+            secondValue = 0
+            if quadArray[1] in variableDirection.keys():
+                firstValue = memory[variableDirection[quadArray[1]]]
+            else:
+                firstValue = quadArray[1]
+
+            if quadArray[2] in variableDirection.keys():
+                secondValue = memory[variableDirection[quadArray[2]]]
+            else:
+                secondValue = quadArray[2]
+            
+            result = int(firstValue) > int(secondValue)
+            
+            if result == True:
+                variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
+                memory[variableDirection[quadArray[3]]] = 1
+            else:
+                variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
+                memory[variableDirection[quadArray[3]]] = 0
+        elif quadArray[0] == '<':
+            firstValue = 0
+            secondValue = 0
+            if quadArray[1] in variableDirection.keys():
+                firstValue = memory[variableDirection[quadArray[1]]]
+            else:
+                firstValue = quadArray[1]
+
+            if quadArray[2] in variableDirection.keys():
+                secondValue = memory[variableDirection[quadArray[2]]]
+            else:
+                secondValue = quadArray[2]
+            
+            result = int(firstValue) < int(secondValue)
+            
+            if result == True:
+                variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
+                memory[variableDirection[quadArray[3]]] = 1
+            else:
+                variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
+                memory[variableDirection[quadArray[3]]] = 0
+        elif quadArray[0] == '!=':
+            firstValue = 0
+            secondValue = 0
+            if quadArray[1] in variableDirection.keys():
+                firstValue = memory[variableDirection[quadArray[1]]]
+            else:
+                firstValue = quadArray[1]
+
+            if quadArray[2] in variableDirection.keys():
+                secondValue = memory[variableDirection[quadArray[2]]]
+            else:
+                secondValue = quadArray[2]
+            
+            result = int(firstValue) != int(secondValue)
+            
+            if result == True:
+                variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
+                memory[variableDirection[quadArray[3]]] = 1
+            else:
+                variableDirection[quadArray[3]] = str(1000 + len(variableDirection))
+                memory[variableDirection[quadArray[3]]] = 0
+        elif quadArray[0] == 'GOTOF':
+            value = 0
+            if quadArray[1] in variableDirection.keys():
+                value = memory[variableDirection[quadArray[1]]]
+            else:
+                value = quadArray[1]
+
+            if int(value) == 0:
+                processProgram(quadTable[int(quadArray[2]-1):])
+                return 
+        elif quadArray[0] == 'GOTO':
+            processProgram(quadTable[int(quadArray[2]-1):])
+            return
+        elif quadArray[0] == 'cout':
+            print(memory[variableDirection[quadArray[1]]])
+        steps += 1
+
+#------------------- PARSER -------------------------------
 def p_program(p):
     '''program : PROGRAM ID ENDL programPrima'''
     #If everything is accepted - VALID INPUT PARSE IT ALL BABY
@@ -248,6 +414,8 @@ def p_statement(p):
     
 def p_print(p):
     '''print : COUT OPENP printPrima '''
+    operatorStack.append(p[1])
+    addToQuadrupleTable()
 
 def p_printPrima(p):
     '''printPrima : expresion expresionPrima
@@ -345,12 +513,14 @@ print("\n--------------------------------------------------------------------\n"
 
 parser = yacc.yacc()
 
-#-------------------------------CASO 1----------------------------------
+#---------------------------CASO 1--------------------------------------
+
+#--------------------------VARIABLES------------------------------------
 #To create variable table 
 idTypeValue=""
 variableTable={}
 
-#To create quadruple table
+#To create quadruple table including jumps
 elementStack=[]
 operatorStack=[]
 operationCounter=0
@@ -359,11 +529,25 @@ quadrupleTable=[]
 newTempVar=""
 createJump=[]
 jumpStack=[]
+
+#To create memory and VM process
+memory = {}
+variableDirection = {}
+
+#---------------------------INPUT--------------------------------------
 data1 = '''
-    program buenCaso; var a, b: int; c, d: float; {
-        a=b+c*(k+c/d);
+    program buenCaso; var a, b: int; {
+        a = 6;
+        b = 7;
+        if(a>b){
+            cout(b-a);
+        }else{
+            cout(a);
+        };
+        cout(b);
     }end
 '''
+
 lexer.input(data1)
 
 # Tokenize
@@ -390,98 +574,13 @@ for quadruple in quadrupleTable:
     print(quadruple, "\n")
 print("\n--------------------------------------------------------------------\n")
 
-#-------------------------------CASO 2----------------------------------
-#To create variable table 
-idTypeValue=""
-variableTable={}
+createMemory()
 
-#To create quadruple table
-elementStack=[]
-operatorStack=[]
-operationCounter=0
-gotoJumpStack=[]
-quadrupleTable=[]
-newTempVar=""
-createJump=[]
-jumpStack=[]
-data2 = '''
-    program buenCaso; var a, b: int; c, d: float; {
-        if (a<c){
-            b = c+d;
-        }else{
-            b = a;
-        };
-    }end
-'''
-lexer.input(data2)
+print("-------------------------VM-RESULT----------------------------------")
+processProgram(quadrupleTable)
+print(variableDirection)
+print(memory)
 
-# # Tokenize
-# # while True:
-# #     tok = lexer.token()
-# #     if not tok: 
-# #         break      # No more input
-# #     print(tok)
 
-# # Build the parser
-parser.parse(data2)
 
-# #print variable Table
-# print("\n-----------------------VARIABLE TABLE-------------------------------\n")
-# print(variableTable)
 
-# #print semantic table
-# print("\n-----------------------SEMANTIC TABLE-------------------------------\n")
-# getSementicTable()
-
-# #print quadruple table
-print("\n-----------------------QUADRUPLE TABLE------------------------------\n")
-for quadruple in quadrupleTable:
-    print(quadruple, "\n")
-print("\n--------------------------------------------------------------------\n")
-
-#-------------------------------CASO 3----------------------------------
-#To create variable table 
-idTypeValue=""
-variableTable={}
-
-#To create quadruple table
-elementStack=[]
-operatorStack=[]
-operationCounter=0
-gotoJumpStack=[]
-quadrupleTable=[]
-newTempVar=""
-createJump=[]
-jumpStack=[]
-data3 = '''
-    program buenCaso; var a, b: int; c, d: float; {
-        do{
-            a=b;
-        }while(c>k);
-    }end
-'''
-# lexer.input(data3)
-
-# # Tokenize
-# # while True:
-# #     tok = lexer.token()
-# #     if not tok: 
-# #         break      # No more input
-# #     print(tok)
-
-# # Build the parser
-parser.parse(data3)
-
-# #print variable Table
-# print("\n-----------------------VARIABLE TABLE-------------------------------\n")
-# print(variableTable)
-
-# #print semantic table
-# print("\n-----------------------SEMANTIC TABLE-------------------------------\n")
-# getSementicTable()
-
-# #print quadruple table
-print("\n-----------------------QUADRUPLE TABLE------------------------------\n")
-for quadruple in quadrupleTable:
-    print(quadruple, "\n")
-print("\n--------------------------------------------------------------------\n")
