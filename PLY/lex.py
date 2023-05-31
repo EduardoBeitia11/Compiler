@@ -56,7 +56,7 @@ t_CLOSEK = r'\}'
 t_ENDL = r'\;'
 t_COMA = r'\,'
 t_COLON = r'\:'
-#t_IF = r'if'
+t_IF = r'if'
 t_ELSE = r'else'
 t_WHILE = r'while'
 t_PROGRAM = r'program'
@@ -195,7 +195,6 @@ def createMemory():
         memory[inicialDirection] = 0
         inicialDirection += 1
     
-
 #-------------------- VM process function -----------------
 def processProgram(quadTable):
     steps = 0
